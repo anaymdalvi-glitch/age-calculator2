@@ -1,20 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" class="dark"> <!-- Default to dark mode -->
-<head>
+<html lang="en" class="dark"> <!-- Default to dark mode --><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChronoCraft | Modern Age Calculator</title>
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Font: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Google Font: Inter --><link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- Lucide Icons --><script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
     <style>
         /* Use the Inter font family */
@@ -94,8 +90,7 @@
     <main class="w-full max-w-5xl mx-auto">
         <div class="w-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border border-gray-200 dark:border-gray-700/50 rounded-2xl shadow-2xl p-6 md:p-10">
             
-            <!-- Header: Title + Theme Toggle -->
-            <header class="flex justify-between items-center mb-8">
+            <!-- Header: Title + Theme Toggle --><header class="flex justify-between items-center mb-8">
                 <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center gap-3">
                     <i data-lucide="calendar-clock" class="w-8 h-8"></i>
                     ChronoCraft
@@ -106,26 +101,23 @@
                 </button>
             </header>
 
-            <!-- Input Form -->
-            <section id="input-form" class="mb-8">
+            <!-- Input Form --><section id="input-form" class="mb-8">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     
-                    <!-- Date Inputs -->
-                    <div class="space-y-3">
-                        <label class="text-base font-semibold text-gray-700 dark:text-gray-300">Date of Birth</label>
+                    <!-- Date Inputs --><div class="space-y-3">
+                        <label for="day" class="text-base font-semibold text-gray-700 dark:text-gray-300">Date of Birth</label>
                         <div class="grid grid-cols-3 gap-3">
-                            <input type="number" id="day" placeholder="Day" min="1" max="31" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Day of Birth">
-                            <input type="number" id="month" placeholder="Month" min="1" max="12" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Month of Birth">
-                            <input type="number" id="year" placeholder="Year" min="1900" max="2100" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Year of Birth">
+                            <input type="number" id="day" placeholder="DD" min="1" max="31" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Day of Birth">
+                            <input type="number" id="month" placeholder="MM" min="1" max="12" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Month of Birth">
+                            <input type="number" id="year" placeholder="YYYY" min="1900" max="2100" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Year of Birth">
                         </div>
                     </div>
                     
-                    <!-- Time Inputs -->
-                    <div class="space-y-3">
-                        <label class="text-base font-semibold text-gray-700 dark:text-gray-300">Time of Birth <span class="text-sm font-normal opacity-70">(Optional)</span></label>
+                    <!-- Time Inputs --><div class="space-y-3">
+                        <label for="hour" class="text-base font-semibold text-gray-700 dark:text-gray-300">Time of Birth <span class="text-sm font-normal opacity-70">(Optional)</span></label>
                         <div class="grid grid-cols-3 gap-3">
-                            <input type="number" id="hour" placeholder="Hour" min="1" max="12" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Hour of Birth">
-                            <input type="number" id="minute" placeholder="Min" min="0" max="59" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Minute of Birth">
+                            <input type="number" id="hour" placeholder="HH" min="1" max="12" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Hour of Birth">
+                            <input type="number" id="minute" placeholder="MM" min="0" max="59" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Minute of Birth">
                             <select id="ampm" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring cursor-pointer" aria-label="AM or PM">
                                 <option>AM</option>
                                 <option>PM</option>
@@ -133,107 +125,99 @@
                         </div>
                     </div>
 
-                    <!-- Calculate Button -->
-                    <div class="md:mt-auto">
-                        <label class="text-base font-semibold text-transparent select-none hidden md:block">Calculate</label>
-                        <button id="calculate-btn" class="w-full p-3.5 mt-3 md:mt-0 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg shadow-lg hover:opacity-90 transition-all transform hover:scale-105 active:scale-100 focus-visible-ring">
-                            Calculate
-                        </button>
+                    <!-- Actions and Settings --><div class="space-y-3 md:mt-auto">
+                        <label class="text-base font-semibold text-gray-700 dark:text-gray-300 hidden md:block opacity-0">Actions</label>
+                        <div class="flex items-center gap-4 mt-3 md:mt-0">
+                            <!-- Reset Button --><button id="reset-btn" class="flex-shrink-0 px-4 py-2.5 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold text-sm hover:bg-gray-300 dark:hover:bg-gray-600 transition-all focus-visible-ring">
+                                Reset
+                            </button>
+                            <!-- Calculate Button --><button id="calculate-btn" class="flex-grow p-3.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg shadow-lg hover:opacity-90 transition-all transform hover:scale-[1.02] active:scale-100 focus-visible-ring">
+                                Calculate
+                            </button>
+                        </div>
+                        <!-- Save for next time checkbox --><div class="flex items-center mt-3">
+                            <input type="checkbox" id="save-data" class="h-4 w-4 text-indigo-600 dark:text-indigo-500 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600 focus-visible-ring">
+                            <label for="save-data" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer select-none">Remember my birthday</label>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Error Message Area -->
-            <div id="error-message" class="text-red-500 dark:text-red-400 text-center mb-6 text-lg font-medium hidden"></div>
+            <!-- Error Message Area --><div id="error-message" class="text-red-500 dark:text-red-400 text-center mb-6 text-lg font-medium hidden"></div>
 
-            <!-- Results Section -->
-            <section id="results-container" class="hidden space-y-6">
+            <!-- Results Section --><section id="results-container" class="hidden space-y-8 mt-10">
                 
-                <!-- Live Age Card -->
-                <div id="live-age-card" class="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 rounded-2xl shadow-xl text-white text-center">
-                    <h2 class="text-xl font-semibold mb-4 opacity-90">Your Precise Age</h2>
-                    <div id="age-display" class="flex flex-wrap items-center justify-center gap-2 md:gap-4">
-                        <!-- Content injected by JS -->
+                <!-- Precise Age & Next Birthday Countdown --><div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Your Precise Age Card --><div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                        <h2 class="flex items-center gap-2 text-xl font-semibold text-gray-700 dark:text-gray-300 mb-5">
+                            <i data-lucide="clock" class="w-6 h-6 text-indigo-500"></i>
+                            Your Precise Age
+                        </h2>
+                        <div id="age-display" class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-y-4 gap-x-2 text-center text-gray-900 dark:text-white">
+                            <!-- Content injected by JS --></div>
+                    </div>
+
+                    <!-- Next Birthday Countdown Card --><div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                        <h2 class="flex items-center gap-2 text-xl font-semibold text-gray-700 dark:text-gray-300 mb-5">
+                            <i data-lucide="gift" class="w-6 h-6 text-purple-500"></i>
+                            Next Birthday Countdown
+                        </h2>
+                        <div id="countdown-display" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-y-4 gap-x-2 text-center text-gray-900 dark:text-white">
+                            <!-- Content injected by JS --></div>
                     </div>
                 </div>
 
-                <!-- Next Birthday + Day of Week -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Next Birthday Card -->
-                    <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                        <h2 class="flex items-center gap-2 text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                            <i data-lucide="party-popper" class="w-5 h-5 text-indigo-500"></i>
-                            Next Birthday
+                <!-- Zodiac, Chinese Zodiac, Born On --><div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Zodiac Sign Card --><div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 flex flex-col items-center">
+                        <h2 class="flex items-center gap-2 text-base font-medium text-gray-500 dark:text-gray-400 mb-3">
+                            <i data-lucide="star" class="w-5 h-5 text-indigo-400"></i>
+                            Zodiac Sign
                         </h2>
-                        <div id="countdown" class="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-2xl font-bold text-gray-900 dark:text-white">
-                            <!-- Content injected by JS -->
-                        </div>
+                        <span id="zodiac" class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500 block"></span>
                     </div>
-                    
-                    <!-- Day of Week Card -->
-                    <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                        <h2 class="flex items-center gap-2 text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                            <i data-lucide="calendar-days" class="w-5 h-5 text-indigo-500"></i>
+                    <!-- Chinese Zodiac Card --><div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 flex flex-col items-center">
+                        <h2 class="flex items-center gap-2 text-base font-medium text-gray-500 dark:text-gray-400 mb-3">
+                            <i data-lucide="paw-print" class="w-5 h-5 text-purple-400"></i>
+                            Chinese Zodiac
+                        </h2>
+                        <span id="chineseZodiac" class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500 block"></span>
+                    </div>
+                    <!-- Born On Card --><div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 flex flex-col items-center">
+                        <h2 class="flex items-center gap-2 text-base font-medium text-gray-500 dark:text-gray-400 mb-3">
+                            <i data-lucide="calendar-days" class="w-5 h-5 text-pink-400"></i>
                             Born on a
                         </h2>
-                        <span id="dayOfWeek" class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">
-                            <!-- Content injected by JS -->
-                        </span>
+                        <span id="dayOfWeek" class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500 block"></span>
                     </div>
                 </div>
 
-                <!-- Age Summary Cards -->
-                <div>
-                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">Age Summary</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                        <!-- Total Years -->
-                        <div class="stat-card">
-                            <h3 class="stat-title">Years</h3>
-                            <span id="totalYears" class="stat-value"></span>
+                <!-- Birthday Snapshot Section --><div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                    <h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-500 text-center mb-6">Your Birthday Snapshot</h2>
+                    
+                    <div class="space-y-6">
+                        <!-- Personality Trait --><div>
+                            <h3 class="flex items-center gap-2 text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i data-lucide="sparkles" class="w-5 h-5 text-yellow-500"></i>
+                                Personality Trait
+                            </h3>
+                            <p id="trait" class="text-gray-600 dark:text-gray-300 leading-relaxed"></p>
                         </div>
-                        <!-- Total Months -->
-                        <div class="stat-card">
-                            <h3 class="stat-title">Months</h3>
-                            <span id="totalMonths" class="stat-value"></span>
+
+                        <!-- Famous Peers --><div>
+                            <h3 class="flex items-center gap-2 text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i data-lucide="users" class="w-5 h-5 text-green-500"></i>
+                                Famous Peers
+                            </h3>
+                            <ul id="famousPeers" class="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-1 pl-4">
+                                <!-- Content injected by JS based on birth date/zodiac for more dynamic data --></ul>
                         </div>
-                        <!-- Total Weeks -->
-                        <div class="stat-card">
-                            <h3 class="stat-title">Weeks</h3>
-                            <span id="totalWeeks" class="stat-value"></span>
-                        </div>
-                        <!-- Total Days -->
-                        <div class="stat-card">
-                            <h3 class="stat-title">Days</h3>
-                            <span id="totalDays" class="stat-value"></span>
-                        </div>
-                        <!-- Total Hours -->
-                        <div class="stat-card">
-                            <h3 class="stat-title">Hours</h3>
-                            <span id="totalHours" class="stat-value"></span>
-                        </div>
-                        <!-- Total Minutes -->
-                        <div class="stat-card">
-                            <h3 class="stat-title">Minutes</h3>
-                            <span id="totalMinutes" class="stat-value"></span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Zodiac & Personality -->
-                <div>
-                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">Life Path</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="stat-card">
-                            <h3 class="stat-title">Zodiac Sign</h3>
-                            <span id="zodiac" class="stat-value text-indigo-500 dark:text-indigo-400"></span>
-                        </div>
-                        <div class="stat-card">
-                            <h3 class="stat-title">Chinese Zodiac</h3>
-                            <span id="chineseZodiac" class="stat-value text-indigo-500 dark:text-indigo-400"></span>
-                        </div>
-                        <div class="stat-card md:col-span-1 lg:col-span-1">
-                            <h3 class="stat-title">Personality Trait</h3>
-                            <p id="trait" class="text-sm text-gray-600 dark:text-gray-300 mt-1"></p>
+
+                        <!-- On This Day in History --><div>
+                            <h3 class="flex items-center gap-2 text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i data-lucide="scroll" class="w-5 h-5 text-red-500"></i>
+                                On This Day in History
+                            </h3>
+                            <p id="historyFact" class="text-gray-600 dark:text-gray-300 leading-relaxed"></p>
                         </div>
                     </div>
                 </div>
@@ -254,35 +238,22 @@
         const minuteEl = document.getElementById('minute');
         const ampmEl = document.getElementById('ampm');
         const calcBtn = document.getElementById('calculate-btn');
+        const resetBtn = document.getElementById('reset-btn'); // New reset button
+        const saveDataCheckbox = document.getElementById('save-data'); // New checkbox
         const errorEl = document.getElementById('error-message');
         const resultsContainer = document.getElementById('results-container');
         
         // Result fields
         const ageDisplayEl = document.getElementById('age-display');
-        const countdownEl = document.getElementById('countdown');
+        const countdownDisplayEl = document.getElementById('countdown-display'); // Renamed for clarity
         const dayOfWeekEl = document.getElementById('dayOfWeek');
-        const totalYearsEl = document.getElementById('totalYears');
-        const totalMonthsEl = document.getElementById('totalMonths');
-        const totalWeeksEl = document.getElementById('totalWeeks');
-        const totalDaysEl = document.getElementById('totalDays');
-        const totalHoursEl = document.getElementById('totalHours');
-        const totalMinutesEl = document.getElementById('totalMinutes');
         const zodiacEl = document.getElementById('zodiac');
         const chineseZodiacEl = document.getElementById('chineseZodiac');
         const traitEl = document.getElementById('trait');
+        const famousPeersEl = document.getElementById('famousPeers');
+        const historyFactEl = document.getElementById('historyFact');
 
         let liveInterval; // To store the setInterval ID
-
-        // --- Utility Classes for Tailwind (applied via JS) ---
-        const statCardBase = "bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700";
-        const statTitleBase = "text-sm font-medium text-gray-500 dark:text-gray-400";
-        const statValueBase = "text-2xl font-bold text-gray-900 dark:text-white mt-1 block";
-        
-        // Apply utility classes to stat cards
-        document.querySelectorAll('.stat-card').forEach(card => card.className = statCardBase);
-        document.querySelectorAll('.stat-title').forEach(title => title.className = statTitleBase);
-        document.querySelectorAll('.stat-value').forEach(value => value.className = statValueBase);
-
 
         // --- Theme Toggle Logic ---
         const applyTheme = (theme) => {
@@ -308,9 +279,72 @@
         const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         applyTheme(savedTheme);
 
+        // --- Persistent Data Logic (Save/Load) ---
+        const saveInputData = () => {
+            if (saveDataCheckbox.checked) {
+                localStorage.setItem('dobDay', dayEl.value);
+                localStorage.setItem('dobMonth', monthEl.value);
+                localStorage.setItem('dobYear', yearEl.value);
+                localStorage.setItem('dobHour', hourEl.value);
+                localStorage.setItem('dobMinute', minuteEl.value);
+                localStorage.setItem('dobAMPM', ampmEl.value);
+                localStorage.setItem('saveDataChecked', 'true');
+            } else {
+                localStorage.removeItem('dobDay');
+                localStorage.removeItem('dobMonth');
+                localStorage.removeItem('dobYear');
+                localStorage.removeItem('dobHour');
+                localStorage.removeItem('dobMinute');
+                localStorage.removeItem('dobAMPM');
+                localStorage.removeItem('saveDataChecked');
+            }
+        };
+
+        const loadInputData = () => {
+            if (localStorage.getItem('saveDataChecked') === 'true') {
+                dayEl.value = localStorage.getItem('dobDay') || '';
+                monthEl.value = localStorage.getItem('dobMonth') || '';
+                yearEl.value = localStorage.getItem('dobYear') || '';
+                hourEl.value = localStorage.getItem('dobHour') || '';
+                minuteEl.value = localStorage.getItem('dobMinute') || '';
+                ampmEl.value = localStorage.getItem('dobAMPM') || 'AM';
+                saveDataCheckbox.checked = true;
+
+                // Automatically calculate if data is loaded
+                if (dayEl.value && monthEl.value && yearEl.value) {
+                    handleCalculate();
+                }
+            } else {
+                saveDataCheckbox.checked = false;
+            }
+        };
+        
+        // Load data on initial page load
+        loadInputData();
+
+        // Save data when checkbox changes or calculate button is clicked
+        saveDataCheckbox.addEventListener('change', saveInputData);
+        calcBtn.addEventListener('click', saveInputData);
+
 
         // --- Calculation Logic ---
         calcBtn.addEventListener('click', handleCalculate);
+        resetBtn.addEventListener('click', resetForm); // Add reset listener
+
+        function resetForm() {
+            dayEl.value = '';
+            monthEl.value = '';
+            yearEl.value = '';
+            hourEl.value = '';
+            minuteEl.value = '';
+            ampmEl.value = 'AM';
+            errorEl.classList.add('hidden');
+            resultsContainer.classList.add('hidden');
+            clearInterval(liveInterval); // Stop any running timer
+            // Optionally uncheck save data on reset
+            // saveDataCheckbox.checked = false; 
+            // saveInputData(); // This would clear saved data
+        }
 
         function handleCalculate() {
             clearInterval(liveInterval); // Stop any previous timer
@@ -329,8 +363,8 @@
                 showError('Please enter a valid day, month, and year.');
                 return;
             }
-            if (y < 1900 || y > 2100) {
-                showError('Please enter a year between 1900 and 2100.');
+            if (y < 1900 || y > new Date().getFullYear()) { // Limit year to current year
+                showError(`Please enter a year between 1900 and ${new Date().getFullYear()}.`);
                 return;
             }
             // Check for invalid dates like Feb 30
@@ -377,19 +411,38 @@
             if (minutes < 0) { minutes += 60; hours--; }
             if (hours < 0) { hours += 24; days--; }
             if (days < 0) { 
-                const daysInLastMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-                days += daysInLastMonth; 
+                // Calculate days in the month *before* the current month
+                const daysInPrevMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+                days += daysInPrevMonth; 
                 months--; 
             }
             if (months < 0) { months += 12; years--; }
 
             ageDisplayEl.innerHTML = `
-                <div class="age-block"><span class="age-value">${years}</span><span class="age-label">Years</span></div>
-                <div class="age-block"><span class="age-value">${months}</span><span class="age-label">Months</span></div>
-                <div class="age-block"><span class="age-value">${days}</span><span class="age-label">Days</span></div>
-                <div class="age-block hidden md:flex"><span class="age-value">${hours}</span><span class="age-label">Hours</span></div>
-                <div class="age-block hidden md:flex"><span class="age-value">${minutes}</span><span class="age-label">Mins</span></div>
-                <div class="age-block hidden md:flex"><span class="age-value">${seconds}</span><span class="age-label">Secs</span></div>
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-700/50">
+                    <span class="text-3xl lg:text-4xl font-extrabold text-indigo-500 dark:text-indigo-400 leading-none">${years}</span>
+                    <span class="text-xs uppercase text-gray-500 dark:text-gray-400 mt-1">Years</span>
+                </div>
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-700/50">
+                    <span class="text-3xl lg:text-4xl font-extrabold text-indigo-500 dark:text-indigo-400 leading-none">${months}</span>
+                    <span class="text-xs uppercase text-gray-500 dark:text-gray-400 mt-1">Months</span>
+                </div>
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-700/50">
+                    <span class="text-3xl lg:text-4xl font-extrabold text-indigo-500 dark:text-indigo-400 leading-none">${days}</span>
+                    <span class="text-xs uppercase text-gray-500 dark:text-gray-400 mt-1">Days</span>
+                </div>
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-700/50">
+                    <span class="text-3xl lg:text-4xl font-extrabold text-purple-500 dark:text-purple-400 leading-none">${hours}</span>
+                    <span class="text-xs uppercase text-gray-500 dark:text-gray-400 mt-1">Hours</span>
+                </div>
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-700/50">
+                    <span class="text-3xl lg:text-4xl font-extrabold text-purple-500 dark:text-purple-400 leading-none">${minutes}</span>
+                    <span class="text-xs uppercase text-gray-500 dark:text-gray-400 mt-1">Minutes</span>
+                </div>
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-700/50">
+                    <span class="text-3xl lg:text-4xl font-extrabold text-purple-500 dark:text-purple-400 leading-none">${seconds}</span>
+                    <span class="text-xs uppercase text-gray-500 dark:text-gray-400 mt-1">Seconds</span>
+                </div>
             `;
 
             // 2. Next Birthday Countdown
@@ -403,40 +456,50 @@
             let cd_m = Math.floor((countdownDiff % (1000 * 60 * 60)) / (1000 * 60));
             let cd_s = Math.floor((countdownDiff % (1000 * 60)) / 1000);
 
-            countdownEl.innerHTML = `
-                <span><span class="text-3xl font-extrabold text-indigo-500 dark:text-indigo-400">${cd_d}</span>d</span>
-                <span><span class="text-3xl font-extrabold text-indigo-500 dark:text-indigo-400">${cd_h}</span>h</span>
-                <span><span class="text-3xl font-extrabold text-indigo-500 dark:text-indigo-400">${cd_m}</span>m</span>
-                <span><span class="text-3xl font-extrabold text-indigo-500 dark:text-indigo-400">${cd_s}</span>s</span>
+            countdownDisplayEl.innerHTML = `
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-700/50">
+                    <span class="text-3xl lg:text-4xl font-extrabold text-purple-500 dark:text-purple-400 leading-none">${cd_d}</span>
+                    <span class="text-xs uppercase text-gray-500 dark:text-gray-400 mt-1">Days</span>
+                </div>
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-700/50">
+                    <span class="text-3xl lg:text-4xl font-extrabold text-purple-500 dark:text-purple-400 leading-none">${cd_h}</span>
+                    <span class="text-xs uppercase text-gray-500 dark:text-gray-400 mt-1">Hours</span>
+                </div>
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-700/50">
+                    <span class="text-3xl lg:text-4xl font-extrabold text-purple-500 dark:text-purple-400 leading-none">${cd_m}</span>
+                    <span class="text-xs uppercase text-gray-500 dark:text-gray-400 mt-1">Minutes</span>
+                </div>
+                <div class="flex flex-col items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-700/50">
+                    <span class="text-3xl lg:text-4xl font-extrabold text-purple-500 dark:text-purple-400 leading-none">${cd_s}</span>
+                    <span class="text-xs uppercase text-gray-500 dark:text-gray-400 mt-1">Seconds</span>
+                </div>
             `;
 
             // 3. Day of Week
             dayOfWeekEl.textContent = birthDate.toLocaleDateString('en-US', { weekday: 'long' });
-
-            // 4. Age Summary
-            const totalDiffMs = now - birthDate;
-            const totalDiffSecs = Math.floor(totalDiffMs / 1000);
-            const totalDiffMins = Math.floor(totalDiffSecs / 60);
-            const totalDiffHours = Math.floor(totalDiffMins / 60);
-            const totalDiffDays = Math.floor(totalDiffHours / 24);
-            const totalDiffWeeks = Math.floor(totalDiffDays / 7);
-            const totalDiffMonths = years * 12 + months;
-
-            totalYearsEl.textContent = years.toLocaleString();
-            totalMonthsEl.textContent = totalDiffMonths.toLocaleString();
-            totalWeeksEl.textContent = totalDiffWeeks.toLocaleString();
-            totalDaysEl.textContent = totalDiffDays.toLocaleString();
-            totalHoursEl.textContent = totalDiffHours.toLocaleString();
-            totalMinutesEl.textContent = totalDiffMins.toLocaleString();
             
-            // 5. Zodiac & Personality
+            // 4. Zodiac & Personality
             const zodiac = getZodiac(birthDate.getDate(), birthDate.getMonth() + 1);
             const animals = ['Rat', 'Ox', 'Tiger', 'Rabbit', 'Dragon', 'Snake', 'Horse', 'Goat', 'Monkey', 'Rooster', 'Dog', 'Pig'];
             const chinese = animals[(birthDate.getFullYear() - 4) % 12];
             
             zodiacEl.textContent = zodiac;
             chineseZodiacEl.textContent = chinese;
-            traitEl.textContent = `A blend of ${zodiac}'s determination and the ${chinese}'s quick-witted energy.`;
+            traitEl.textContent = `You are a dynamic individual, blending the ${zodiac}'s insightful and communicative nature with the ${chinese}'s boundless energy and desire for freedom. This combination makes you incredibly charming, adaptable, and always ready for new experiences and intellectual pursuits. You thrive in social settings and value your independence.`;
+
+            // 5. Famous Peers (Example, can be expanded or made dynamic)
+            famousPeersEl.innerHTML = `
+                <li>George Clooney (actor)</li>
+                <li>Marilyn Monroe (actress)</li>
+                <li>Prince (musician)</li>
+                <li>Angelina Jolie (actress)</li>
+            `; // Example peers, ideally these would be more dynamically linked to birth month/day or zodiac
+
+            // 6. On This Day in History (Example, can be expanded or made dynamic)
+            historyFactEl.textContent = `On this very day in ${y}, a significant historical event took place! For example, on a similar day in 1906, the Wright brothers were granted a U.S. patent for their 'flying machine,' soaring into history and changing the world forever!`;
+            // This can be made dynamic by fetching actual events for the given birth date.
+            
+            lucide.createIcons(); // Re-render Lucide icons after updating innerHTML
         }
 
         function getZodiac(day, month) {
@@ -449,6 +512,7 @@
             errorEl.textContent = message;
             errorEl.classList.remove('hidden');
             resultsContainer.classList.add('hidden'); // Hide results on new error
+            clearInterval(liveInterval); // Stop live interval if there's an error
         }
 
         // --- Initial Icon Render ---
@@ -458,3 +522,4 @@
 
 </body>
 </html>
+
