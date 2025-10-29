@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Age Calculator — Exact Age, Zodiac, Countdown</title>
+
+  <!-- AdSense: page-level script with your publisher ID -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-5173549373434570" crossorigin="anonymous"></script>
+
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass: rgba(255,255,255,0.03);
+      --radius:14px; --gap:16px; --maxw:980px;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1000px 600px at 10% 10%, rgba(124,58,237,0.12), transparent), linear-gradient(180deg,#071025 0%, #001021 100%);
+      color:#e6eef8; display:flex; align-items:center; justify-content:center; padding:32px;
+    }
+    .container{width:100%; max-width:var(--maxw);}
+    header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+    header h1{font-size:20px;margin:0}
+    header p{margin:0;color:var(--muted);font-size:13px}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:var(--radius); padding:20px; box-shadow: 0 6px 30px rgba(2,6,23,0.6);}
+
+    .grid{display:grid;grid-template-columns:1fr 420px;gap:var(--gap)}
+    @media (max-width:920px){.grid{grid-template-columns:1fr} }
+
+    .form{padding:12px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+    input[type="number"], select{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px;border-radius:10px;min-width:0;color:inherit}
+    .small{width:72px}
+    .small2{width:92px}
+    .full{flex:1}
+
+    .actions{display:flex;gap:10px;align-items:center}
+    button{background:linear-gradient(90deg,var(--accent),#5b21b6);border:none;padding:10px 14px;border-radius:10px;color:white;font-weight:600;cursor:pointer}
+    button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);font-weight:600}
+
+    .results{padding:18px;background:var(--glass);border-radius:12px;display:flex;flex-direction:column;gap:12px}
+    .result-row{display:flex;justify-content:space-between;align-items:center}
+    .big{font-size:24px;font-weight:700}
+    .muted{color:var(--muted);font-size:13px}
+
+    .meta{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .meta .card-mini{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:12px;border-radius:10px}
+
+    .footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* responsive ad box */
+    .adbox{display:flex;justify-content:center;margin:14px 0}
+    .ad-placeholder{width:100%;max-width:728px;height:90px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;color:var(--muted);border:1px dashed rgba(255,255,255,0.03)}
+
+    footer.small{margin-top:12px;color:var(--muted);font-size:12px;text-align:center}
+
+    .hint{font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div style="width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:800">AC</div>
+      <div>
+        <h1>Age Calculator</h1>
+        <p>Exact age, zodiac, day of week & next birthday countdown — responsive single-file app</p>
+      </div>
+    </header>
+
+    <div class="card grid">
+      <section class="form">
+        <label>Date of Birth</label>
+        <div class="row">
+          <input id="day" type="number" min="1" max="31" placeholder="Day" class="small" />
+          <select id="month" class="small2">
+            <option value="">Month</option>
+            <option value="1">Jan</option>
+            <option value="2">Feb</option>
+            <option value="3">Mar</option>
+            <option value="4">Apr</option>
+            <option value="5">May</option>
+            <option value="6">Jun</option>
+            <option value="7">Jul</option>
+            <option value="8">Aug</option>
+            <option value="9">Sep</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+          </select>
+          <input id="year" type="number" min="1" max="9999" placeholder="Year" class="small2" />
+        </div>
+
+        <label>Time of Birth (optional)</label>
+        <div class="row">
+          <input id="hour" type="number" min="1" max="12" placeholder="Hour" class="small" />
+          <input id="minute" type="number" min="0" max="59" placeholder="Minute" class="small" />
+          <select id="ampm" class="small">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+          <div style="flex:1"></div>
+        </div>
+
+        <div class="actions" style="margin-top:6px">
+          <button id="calc">Calculate Age</button>
+          <button id="clear" class="secondary">Clear</button>
+          <div style="flex:1"></div>
+          <div class="hint">Tip: leave time blank for midnight</div>
+        </div>
+
+        <div class="adbox" aria-hidden="true">
+          <!-- Responsive ad placeholder. Replace data-ad-slot with your slot id. -->
+          <ins class="adsbygoogle ad-placeholder"
+               style="display:block"
+               data-ad-client="pub-5173549373434570"
+               data-ad-slot="1234567890"
+               data-ad-format="auto"></ins>
+        </div>
+
+        <div class="footer">Privacy: calculations happen in your browser — no data sent anywhere.</div>
+      </section>
+
+      <aside style="padding:12px">
+        <div class="results" id="results">
+          <div class="result-row">
+            <div>
+              <div class="muted">Exact age</div>
+              <div id="exact" class="big">—</div>
+            </div>
+            <div style="text-align:right">
+              <div class="muted">Born on</div>
+              <div id="bornOn">—</div>
+            </div>
+          </div>
+
+          <div class="result-row">
+            <div>
+              <div class="muted">Next birthday</div>
+              <div id="nextBirthday">—</div>
+            </div>
+            <div style="text-align:right">
+              <div class="muted">Countdown</div>
+              <div id="countdown">—</div>
+            </div>
+          </div>
+
+          <div class="meta">
+            <div class="card-mini">
+              <div class="muted">Zodiac Sign</div>
+              <div id="zodiac" style="font-weight:700;margin-top:6px">—</div>
+            </div>
+            <div class="card-mini">
+              <div class="muted">Chinese Zodiac</div>
+              <div id="chinese" style="font-weight:700;margin-top:6px">—</div>
+            </div>
+            <div class="card-mini">
+              <div class="muted">Day of Week</div>
+              <div id="weekday" style="font-weight:700;margin-top:6px">—</div>
+            </div>
+            <div class="card-mini">
+              <div class="muted">Age Details</div>
+              <div id="agedetails" style="font-weight:700;margin-top:6px">—</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:8px">
+            <button id="copy">Copy Summary</button>
+            <button id="share" class="secondary">Share Link</button>
+          </div>
+
+        </div>
+        <footer class="small">Built with ♥ — single-file responsive app</footer>
+      </aside>
+    </div>
+
+  </div>
+
+  <script>
+    // Utilities
+    const el = id => document.getElementById(id);
+
+    const zodiacSigns = [
+      {name:'Capricorn',start:[12,22],end:[1,19]},
+      {name:'Aquarius',start:[1,20],end:[2,18]},
+      {name:'Pisces',start:[2,19],end:[3,20]},
+      {name:'Aries',start:[3,21],end:[4,19]},
+      {name:'Taurus',start:[4,20],end:[5,20]},
+      {name:'Gemini',start:[5,21],end:[6,20]},
+      {name:'Cancer',start:[6,21],end:[7,22]},
+      {name:'Leo',start:[7,23],end:[8,22]},
+      {name:'Virgo',start:[8,23],end:[9,22]},
+      {name:'Libra',start:[9,23],end:[10,22]},
+      {name:'Scorpio',start:[10,23],end:[11,21]},
+      {name:'Sagittarius',start:[11,22],end:[12,21]}
+    ];
+
+    const chineseAnimals = ['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
+    const weekdayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+    let tickInterval = null;
+
+    function parseInputs(){
+      const d = parseInt(el('day').value,10);
+      const m = parseInt(el('month').value,10);
+      const y = parseInt(el('year').value,10);
+      const hh = el('hour').value ? parseInt(el('hour').value,10) : null;
+      const mm = el('minute').value ? parseInt(el('minute').value,10) : 0;
+      const ap = el('ampm').value || 'AM';
+
+      if (!d || !m || !y) return null;
+      // Normalize hour to 24h
+      let hour24 = 0;
+      if (hh === null || isNaN(hh)) {
+        hour24 = 0;
+      } else {
+        hour24 = (ap === 'PM') ? (hh % 12) + 12 : (hh % 12);
+      }
+
+      // JS Date months are 0-indexed
+      const dob = new Date(Date.UTC(y, m-1, d, hour24, mm, 0));
+      return {dob, day:d, month:m, year:y, hour:hour24, minute:mm};
+    }
+
+    function formatNumber(n){return n.toString().padStart(2,'0')}
+
+    function getZodiac(day, month){
+      for (const z of zodiacSigns){
+        const [sM,sD] = z.start; const [eM,eD] = z.end;
+        if (sM === eM){
+          if (month === sM && day >= sD && day <= eD) return z.name;
+        } else {
+          // spans year boundary
+          if ((month === sM && day >= sD) || (month === eM && day <= eD) || (month > sM && month < eM)) return z.name;
+          // also handle generic cases
+          if ((month === sM && day >= sD) || (month === eM && day <= eD)) return z.name;
+        }
+      }
+      // fallback (shouldn't happen)
+      return '—';
+    }
+
+    function getChinese(year){
+      // Chinese zodiac cycle:  Rat corresponds to 4 (e.g., 2020 is Rat), compute index
+      // We'll use reference: 2008 = Rat (index 0?), easier: (year - 2008) % 12 -> 0 => Rat
+      const idx = (year - 2008) % 12;
+      const pos = (idx + 12) % 12;
+      return chineseAnimals[pos];
+    }
+
+    function computeAgeParts(fromDate, toDate){
+      // fromDate is birth, toDate is now. Both Date objects (in UTC)
+      let y = toDate.getUTCFullYear() - fromDate.getUTCFullYear();
+      let m = toDate.getUTCMonth() - fromDate.getUTCMonth();
+      let d = toDate.getUTCDate() - fromDate.getUTCDate();
+      let hh = toDate.getUTCHours() - fromDate.getUTCHours();
+      let mm = toDate.getUTCMinutes() - fromDate.getUTCMinutes();
+      let ss = toDate.getUTCSeconds() - fromDate.getUTCSeconds();
+
+      if (ss < 0){ ss += 60; mm -=1 }
+      if (mm < 0){ mm += 60; hh -=1 }
+      if (hh < 0){ hh += 24; d -=1 }
+      if (d < 0){
+        // borrow days from previous month of toDate
+        const prevMonth = new Date(Date.UTC(toDate.getUTCFullYear(), toDate.getUTCMonth(), 0));
+        d += prevMonth.getUTCDate();
+        m -=1;
+      }
+      if (m < 0){ m += 12; y -=1 }
+
+      return {years:y, months:m, days:d, hours:hh, minutes:mm, seconds:ss};
+    }
+
+    function formatAgeParts(p){
+      return `${p.years} yrs ${p.months} mo ${p.days} d ${formatNumber(p.hours)}:${formatNumber(p.minutes)}:${formatNumber(p.seconds)}`;
+    }
+
+    function nextBirthdayDate(dob, now){
+      const yearNow = now.getUTCFullYear();
+      let candidate = new Date(Date.UTC(yearNow, dob.getUTCMonth(), dob.getUTCDate(), dob.getUTCHours(), dob.getUTCMinutes(), 0));
+      if (candidate <= now) candidate = new Date(Date.UTC(yearNow+1, dob.getUTCMonth(), dob.getUTCDate(), dob.getUTCHours(), dob.getUTCMinutes(), 0));
+      return candidate;
+    }
+
+    function diffToParts(a,b){
+      // b - a in ms -> convert to days, hours, minutes, seconds
+      let ms = Math.max(0, b - a);
+      const sec = Math.floor(ms/1000)%60;
+      const min = Math.floor(ms/60000)%60;
+      const hr = Math.floor(ms/3600000)%24;
+      const days = Math.floor(ms/86400000);
+      return {days, hours:hr, minutes:min, seconds:sec};
+    }
+
+    function findZodiac(day, month){
+      // robust zodiac finder using ranges
+      for (const z of zodiacSigns){
+        const sM=z.start[0], sD=z.start[1];
+        const eM=z.end[0], eD=z.end[1];
+        if ((month === sM && day >= sD) || (month === eM && day <= eD) || (sM < eM && month > sM && month < eM) || (sM > eM && (month > sM || month < eM))) return z.name;
+      }
+      return '—';
+    }
+
+    function showError(msg){
+      el('exact').textContent = msg;
+      el('bornOn').textContent = '—';
+      el('nextBirthday').textContent = '—';
+      el('countdown').textContent = '—';
+      el('zodiac').textContent = '—';
+      el('chinese').textContent = '—';
+      el('weekday').textContent = '—';
+      el('agedetails').textContent = '—';
+      if (tickInterval){ clearInterval(tickInterval); tickInterval=null }
+    }
+
+    function calculate(){
+      const parsed = parseInputs();
+      if (!parsed){ showError('Please enter day, month & year'); return }
+      const {dob, day, month, year} = parsed;
+      const now = new Date();
+      const nowUTC = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds()));
+
+      // validate: dob should not be in the future beyond now
+      if (dob > nowUTC){ showError('Birth date is in the future'); return }
+
+      // compute precise age parts
+      const parts = computeAgeParts(dob, nowUTC);
+
+      el('exact').textContent = formatAgeParts(parts);
+      el('bornOn').textContent = `${day}-${month}-${year} ${parsed.hour !== null ? (' ' + formatNumber(parsed.hour)+':'+formatNumber(parsed.minute)+' UTC') : ''}`;
+
+      // next birthday & countdown
+      const nb = nextBirthdayDate(dob, nowUTC);
+      el('nextBirthday').textContent = `${nb.getUTCDate()}-${nb.getUTCMonth()+1}-${nb.getUTCFullYear()}`;
+      const countdownParts = diffToParts(nowUTC, nb);
+      el('countdown').textContent = `${countdownParts.days}d ${formatNumber(countdownParts.hours)}:${formatNumber(countdownParts.minutes)}:${formatNumber(countdownParts.seconds)}`;
+
+      // zodiac & chinese
+      el('zodiac').textContent = findZodiac(day, month);
+      el('chinese').textContent = getChinese(year);
+
+      const bornWeekday = weekdayNames[dob.getUTCDay()];
+      el('weekday').textContent = bornWeekday;
+
+      el('agedetails').textContent = `${parts.years}y ${parts.months}m ${parts.days}d`;
+
+      // setup ticking every second to update seconds and countdown
+      if (tickInterval) clearInterval(tickInterval);
+      tickInterval = setInterval(()=>{
+        const now2 = new Date();
+        const now2UTC = new Date(Date.UTC(now2.getFullYear(), now2.getMonth(), now2.getDate(), now2.getHours(), now2.getMinutes(), now2.getSeconds()));
+        const p = computeAgeParts(dob, now2UTC);
+        el('exact').textContent = formatAgeParts(p);
+        el('agedetails').textContent = `${p.years}y ${p.months}m ${p.days}d`;
+        const nb2 = nextBirthdayDate(dob, now2UTC);
+        const c = diffToParts(now2UTC, nb2);
+        el('countdown').textContent = `${c.days}d ${formatNumber(c.hours)}:${formatNumber(c.minutes)}:${formatNumber(c.seconds)}`;
+      },1000);
+    }
+
+    // copy summary
+    function copySummary(){
+      const summary = `Born: ${el('bornOn').textContent}\nAge: ${el('exact').textContent}\nZodiac: ${el('zodiac').textContent}\nChinese: ${el('chinese').textContent}\nNext birthday: ${el('nextBirthday').textContent} (in ${el('countdown').textContent})`;
+      navigator.clipboard?.writeText(summary).then(()=>{
+        alert('Summary copied to clipboard');
+      }).catch(()=>{
+        prompt('Copy summary (select & copy):', summary);
+      });
+    }
+
+    // share link (create URL with params)
+    function shareLink(){
+      const parsed = parseInputs(); if (!parsed){ alert('Enter date to create shareable link'); return }
+      const params = new URLSearchParams({d:parsed.day, m:parsed.month, y:parsed.year, h:parsed.hour, min:parsed.minute});
+      const url = location.origin + location.pathname + '?' + params.toString();
+      navigator.share?.({title:'My age details',text:'Open to view my age',url})
+      .catch(()=>{ prompt('Shareable link:', url) })
+    }
+
+    // clear
+    function clearAll(){
+      ['day','month','year','hour','minute'].forEach(id=>el(id).value=''); el('ampm').value='AM';
+      showError('—');
+    }
+
+    // load from query params if present
+    function loadFromQuery(){
+      const qp = new URLSearchParams(location.search);
+      if (qp.has('d') && qp.has('m') && qp.has('y')){
+        el('day').value = qp.get('d'); el('month').value = qp.get('m'); el('year').value = qp.get('y');
+        if (qp.has('h')) el('hour').value = qp.get('h'); if (qp.has('min')) el('minute').value = qp.get('min');
+        calculate();
+      }
+    }
+
+    // wire events
+    document.addEventListener('click', function(e){
+      if (e.target.matches('#calc')) calculate();
+      if (e.target.matches('#clear')) clearAll();
+      if (e.target.matches('#copy')) copySummary();
+      if (e.target.matches('#share')) shareLink();
+    });
+
+    // init
+    clearAll(); loadFromQuery();
+
+    // push ad request
+    try{ (adsbygoogle = window.adsbygoogle || []).push({}); }catch(e){}
+  </script>
+</body>
+</html>
