@@ -105,7 +105,6 @@
         <div class="w-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border border-gray-200 dark:border-gray-700/50 rounded-2xl shadow-2xl p-6 md:p-10">
             
             <!-- Header: Title + Theme Toggle -->
-            <!-- UPDATED: Added justify-center for centering on desktop, removed items-start (now items-center) -->
             <header class="flex flex-col md:flex-row justify-center items-center mb-8 text-center relative">
                 <!-- Title Container -->
                 <div class="text-center">
@@ -152,25 +151,23 @@
                     </div>
 
                     <!-- 3. Actions and Settings (Full Width Row) -->
-                    <div class="space-y-4">
+                    <!-- MODIFIED: Reset button is now placed directly after Calculate button, and the checkbox is moved below -->
+                    <div class="space-y-3">
                         
                         <!-- Calculate Button (Primary action) -->
-                        <!-- UPDATED: Calculate button is now only w-full on mobile, medium size on desktop -->
                         <button id="calculate-btn" class="w-full md:w-64 p-3.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg shadow-lg hover:opacity-90 transition-all transform hover:scale-[1.005] active:scale-100 focus-visible-ring">
                             Calculate
                         </button>
                         
-                        <!-- Secondary Actions: Checkbox and Reset -->
-                        <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-4">
-                            <!-- UPDATED: Checkbox moved to the left -->
-                            <div class="flex items-center order-first">
-                                <input type="checkbox" id="save-data" class="h-4 w-4 text-indigo-600 dark:text-indigo-500 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600 focus-visible-ring">
-                                <label for="save-data" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer select-none">Remember my birthday</label>
-                            </div>
-                            <!-- Reset Button moved to the right -->
-                            <button id="reset-btn" class="w-full sm:w-auto flex-shrink-0 px-4 py-2.5 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold text-sm hover:bg-gray-300 dark:hover:bg-gray-600 transition-all focus-visible-ring order-last">
-                                Reset
-                            </button>
+                        <!-- Reset Button (Below Calculate, matching its width and alignment) -->
+                        <button id="reset-btn" class="w-full md:w-64 px-4 py-2.5 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold text-sm hover:bg-gray-300 dark:hover:bg-gray-600 transition-all focus-visible-ring">
+                            Reset
+                        </button>
+
+                        <!-- Checkbox (Left hand side, below the buttons) -->
+                        <div class="pt-1 flex items-center">
+                            <input type="checkbox" id="save-data" class="h-4 w-4 text-indigo-600 dark:text-indigo-500 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600 focus-visible-ring">
+                            <label for="save-data" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer select-none">Remember my birthday</label>
                         </div>
                     </div>
                 </div>
