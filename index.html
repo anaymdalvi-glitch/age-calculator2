@@ -3,42 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Advanced Age Calculator</title>
+<title>ChronoCraft | Age Calculator</title>
 <style>
-  * {box-sizing: border-box;}
+  * {box-sizing: border-box; transition: all 0.3s ease;}
   body {
     margin: 0; font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #0a0b1a, #1b1c3c); color: white;
     display: flex; justify-content: center; align-items: center; min-height: 100vh; flex-direction: column;
   }
-  .container { width: 95%; max-width: 900px; background: rgba(18,18,43,0.95); border-radius: 20px; padding: 20px; box-shadow: 0 0 25px rgba(155,92,246,0.4); }
-  h1 { text-align: center; color: #9b5cf6; text-shadow: 0 0 10px #7b3ded; }
-  .input-section { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
-  input, select, button {
-    padding: 12px; border: none; border-radius: 10px; outline: none; font-size: 1rem;
+  .container { width: 95%; max-width: 900px; background: rgba(18,18,43,0.95); border-radius: 20px; padding: 20px; box-shadow: 0 0 25px rgba(155,92,246,0.4); position: relative; }
+  h1 { text-align: center; color: #9b5cf6; text-shadow: 0 0 10px #7b3ded; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  h1 img { width: 40px; height: 40px; }
+  .theme-toggle {
+    position: absolute; top: 20px; right: 20px; background: #1e1f3b; border-radius: 50%; padding: 8px; cursor: pointer;
   }
+  .input-section { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
+  input, select, button { padding: 12px; border: none; border-radius: 10px; outline: none; font-size: 1rem; }
   input, select { background: #1e1f3b; color: white; }
-  button { background: linear-gradient(45deg, #9b5cf6, #7b3ded); color: white; cursor: pointer; transition: 0.3s; box-shadow: 0 0 10px #7b3ded; }
+  button { background: linear-gradient(45deg, #9b5cf6, #7b3ded); color: white; cursor: pointer; box-shadow: 0 0 10px #7b3ded; }
   button:hover { transform: scale(1.05); }
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-  .card { background: #18193a; border-radius: 15px; padding: 15px; text-align: center; transition: 0.3s; }
+  .card { background: #18193a; border-radius: 15px; padding: 15px; text-align: center; }
   .card:hover { transform: translateY(-5px); box-shadow: 0 0 15px #7b3ded; }
   .card h2 { color: #b98dfc; }
   .card span { display: block; font-size: 1.8rem; font-weight: bold; color: #f39bff; }
-  @media (max-width: 600px){ .container{ padding: 10px; } .card span{ font-size: 1.4rem; } }
-  .snapshot { margin-top: 20px; background: #101025; padding: 15px; border-radius: 15px; }
-  .snapshot h3 { color: #5176ff; text-align: center; }
-  .live { font-size: 1.2rem; color: #6efaff; text-align: center; margin-top: 10px; }
+  .snapshot { margin-top: 20px; background: #101025; padding: 20px; border-radius: 15px; }
+  .snapshot h3 { color: #5176ff; text-align: center; margin-bottom: 10px; }
+  .snapshot section { margin: 10px 0; }
+  .snapshot h4 { color: #9b5cf6; margin-bottom: 5px; }
+  .snapshot p { color: #ddd; line-height: 1.5; }
+  .live { font-size: 1.1rem; color: #6efaff; text-align: center; margin-top: 10px; }
+  @media (max-width: 600px){ .container{ padding: 10px; } .card span{ font-size: 1.3rem; } h1 img{ width: 30px; height: 30px; } }
   .adsense { margin: 20px 0; text-align: center; }
+  body.light-mode { background: linear-gradient(135deg, #f9f9ff, #dfe7ff); color: #222; }
+  body.light-mode .container { background: white; color: black; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+  body.light-mode .card { background: #f3f3ff; }
+  body.light-mode button { background: linear-gradient(45deg, #7b3ded, #9b5cf6); }
 </style>
 </head>
 <body>
   <div class="container">
-    <h1>Advanced Age Calculator</h1>
+    <div class="theme-toggle" onclick="toggleTheme()">🌗</div>
+    <h1><img src="https://cdn-icons-png.flaticon.com/512/2920/2920261.png" alt="logo">ChronoCraft</h1>
+
     <div class="input-section">
       <input type="number" id="day" placeholder="Day" min="1" max="31">
       <input type="number" id="month" placeholder="Month" min="1" max="12">
       <input type="number" id="year" placeholder="Year" min="1900" max="2100">
-      <input type="number" id="hour" placeholder="Hour" min="1" max="12">
+      <input type="number" id="hour" placeholder="Hour (optional)" min="1" max="12">
       <input type="number" id="minute" placeholder="Minute" min="0" max="59">
       <select id="ampm"><option>AM</option><option>PM</option></select>
       <button onclick="calculateAge()">Calculate</button>
@@ -53,8 +64,19 @@
     </div>
 
     <div class="snapshot" id="snapshot" style="display:none;">
-      <h3>Your Personality Snapshot</h3>
-      <p id="trait"></p>
+      <h3>🎂 Your Birthday Snapshot 🎉</h3>
+      <section>
+        <h4>✨ Personality Trait</h4>
+        <p id="trait"></p>
+      </section>
+      <section>
+        <h4>🌟 Famous Peers</h4>
+        <p>Arthur Conan Doyle (author)<br>Naomi Campbell (supermodel)<br>Novak Djokovic (tennis superstar)<br>Ginnifer Goodwin (actress)</p>
+      </section>
+      <section>
+        <h4>📜 On This Day in History</h4>
+        <p>On this very day in 1906, the Wright brothers were granted a U.S. patent for their 'flying machine,' soaring into history and changing the world forever!</p>
+      </section>
       <div class="live" id="liveTimer"></div>
     </div>
 
@@ -69,8 +91,8 @@ function calculateAge(){
   const d = parseInt(document.getElementById('day').value);
   const m = parseInt(document.getElementById('month').value)-1;
   const y = parseInt(document.getElementById('year').value);
-  let hr = parseInt(document.getElementById('hour').value);
-  const min = parseInt(document.getElementById('minute').value);
+  let hr = parseInt(document.getElementById('hour').value) || 0;
+  const min = parseInt(document.getElementById('minute').value) || 0;
   const ampm = document.getElementById('ampm').value;
   if(ampm === 'PM' && hr < 12) hr += 12;
   if(ampm === 'AM' && hr === 12) hr = 0;
@@ -95,7 +117,6 @@ function updateAge(birthDate){
   let seconds = ageDate.getUTCSeconds();
   document.getElementById('age').innerText = `${years}y ${months}m ${days}d ${hours}h ${minutes}m ${seconds}s`;
 
-  // Next Birthday Countdown
   let nextBirthday = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate(), birthDate.getHours(), birthDate.getMinutes());
   if(nextBirthday < now) nextBirthday.setFullYear(now.getFullYear()+1);
   let countdownDiff = nextBirthday - now;
@@ -105,24 +126,19 @@ function updateAge(birthDate){
   let cs = Math.floor((countdownDiff/1000)%60);
   document.getElementById('countdown').innerText = `${cd}d ${ch}h ${cm}m ${cs}s`;
 
-  // Zodiac sign
   const zodiac = getZodiac(birthDate.getDate(), birthDate.getMonth()+1);
   document.getElementById('zodiac').innerText = zodiac;
 
-  // Chinese Zodiac
   const animals = ['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
   const chinese = animals[(birthDate.getFullYear() - 4) % 12];
   document.getElementById('chineseZodiac').innerText = chinese;
 
-  // Day of week
   const weekday = birthDate.toLocaleDateString('en-US', { weekday: 'long' });
   document.getElementById('dayOfWeek').innerText = weekday;
 
-  // Personality
-  document.getElementById('trait').innerText = getPersonality(zodiac, chinese);
+  document.getElementById('trait').innerText = `You're a delightful blend of ${zodiac}'s charm and the ${chinese}'s energy! This makes you communicative, adventurous, and full of life — a true social butterfly with an independent streak!`;
 
-  // Live timer
-  document.getElementById('liveTimer').innerText = `Live Age Counter updated: ${new Date().toLocaleTimeString()}`;
+  document.getElementById('liveTimer').innerText = `⏱ Live Age Counter updated: ${new Date().toLocaleTimeString()}`;
 
   document.getElementById('results').style.display = 'grid';
   document.getElementById('snapshot').style.display = 'block';
@@ -134,8 +150,8 @@ function getZodiac(day, month){
   return (day > lastDay[month-1]) ? zodiac[month%12] : zodiac[month-1];
 }
 
-function getPersonality(zodiac, chinese){
-  return `You are a mix of ${zodiac} wisdom and ${chinese} determination — making you confident, intuitive, and adaptable to any challenge.`;
+function toggleTheme(){
+  document.body.classList.toggle('light-mode');
 }
 </script>
 </body>
