@@ -1,258 +1,489 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>ChronoCraft — Age Calculator</title>
 
-<!-- Google AdSense -->
+<!-- Adsense (your publisher ID) -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-5173549373434570" crossorigin="anonymous"></script>
 
 <style>
-:root {
-  --bg: #0b132b;
-  --card-bg: #1c2541;
-  --text: #ffffff;
-  --accent: linear-gradient(90deg, #ff6ec4, #7873f5);
-  --input-bg: #24305e;
-}
-[data-theme="light"] {
-  --bg: #f8f8fa;
-  --card-bg: #ffffff;
-  --text: #1a1a1a;
-  --input-bg: #f0f0f3;
-}
-body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-  transition: background 0.4s ease, color 0.4s ease;
-}
-h1 {
-  text-align: center;
-  background: var(--accent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-top: 40px;
-  font-size: 2rem;
-}
-.card {
-  background: var(--card-bg);
-  padding: 30px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-  margin: 20px;
-  transition: background 0.4s ease;
-}
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-}
-input, select {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #444;
-  background: var(--input-bg);
-  color: var(--text);
-  font-size: 1rem;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-select option {
-  background-color: var(--card-bg);
-  color: var(--text);
-}
-button {
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  margin-top: 15px;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-}
-button:hover { opacity: 0.85; }
-.result {
-  margin-top: 20px;
-  padding: 15px;
-  border-radius: 10px;
-  background: var(--input-bg);
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-.theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: var(--text);
-  cursor: pointer;
-}
-.funfact {
-  margin-top: 10px;
-  padding: 10px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 10px;
-  font-style: italic;
-}
+  :root{
+    --bg:#0b1220;
+    --card:#0f1726;
+    --muted:#9aa6bf;
+    --accent-from:#b33cff;
+    --accent-to:#ff6ec4;
+    --glass: rgba(255,255,255,0.03);
+    --success: #7c3aed;
+    --text:#e9f0fb;
+    --card-2: rgba(255,255,255,0.02);
+    --radius:14px;
+  }
+
+  [data-theme="light"]{
+    --bg: #f6f7fb;
+    --card: #ffffff;
+    --muted: #5b6b7a;
+    --text: #0f1724;
+    --card-2: #f3f4f6;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  .wrap{max-width:1100px;margin:28px auto;padding:18px}
+  header{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-bottom:18px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent-from),var(--accent-to));display:flex;align-items:center;justify-content:center;font-weight:800}
+  h1{margin:0;font-size:30px;line-height:1;color:var(--text)}
+  p.lead{margin:4px 0 0;color:var(--muted)}
+  .theme-toggle{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:999px;color:var(--text);cursor:pointer}
+
+  /* Layout grid */
+  .grid{
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap:18px;
+  }
+  @media (max-width:980px){ .grid{grid-template-columns:1fr} }
+
+  /* left form */
+  .card{
+    background: linear-gradient(180deg,var(--card), rgba(255,255,255,0.005));
+    padding:18px;border-radius:var(--radius);box-shadow:0 8px 40px rgba(0,0,0,0.45);
+  }
+  .form-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .field{flex:1;min-width:120px}
+  label{display:block;font-size:13px;color:var(--muted);margin-bottom:8px}
+  input[type="number"], select{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text);font-size:15px}
+  select{appearance:none;padding-right:36px;position:relative}
+  /* ensure options visible in dark mode */
+  select option{background:var(--card); color:var(--text)}
+  .small{width:92px}
+  .tiny{width:68px}
+
+  .controls{display:flex;gap:10px;align-items:center;margin-top:12px}
+  .btn{padding:10px 14px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
+  .btn-primary{background:linear-gradient(90deg,var(--accent-from),var(--accent-to));color:white;box-shadow:0 6px 18px rgba(124,58,237,0.18)}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text)}
+
+  /* right result panel */
+  .panel{background:var(--card-2);padding:16px;border-radius:12px;display:flex;flex-direction:column;gap:12px}
+  .big-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stat-card{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+  .stat-card h3{margin:0;color:var(--muted);font-size:13px}
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .stat-item{text-align:center;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02)}
+  .stat-item .num{font-size:28px;font-weight:800;color:var(--accent-from)}
+  .kpi-row{display:flex;gap:12px;flex-wrap:wrap}
+  .kpi{flex:1;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02);display:flex;gap:12px;align-items:center}
+  .kpi .label{color:var(--muted);font-size:13px}
+  .kpi .val{font-weight:800;font-size:18px}
+
+  .snapshot{margin-top:12px;padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005))}
+
+  /* small screens */
+  @media (max-width:600px){
+    h1{font-size:22px}
+    .stat-grid{grid-template-columns:repeat(2,1fr)}
+    .kpi{flex-basis:100%}
+    .big-grid{grid-template-columns:1fr}
+  }
+
+  /* accessibility focus */
+  input:focus, select:focus, button:focus{outline:2px solid rgba(124,58,237,0.18);outline-offset:2px}
+
+  .muted-small{color:var(--muted);font-size:13px}
 </style>
 </head>
-
 <body>
-<button class="theme-toggle" id="themeToggle">🌙</button>
-<h1>ChronoCraft</h1>
-<p style="text-align:center; opacity:0.8;">Your Personal Time Weaver — Age Calculator</p>
+  <div class="wrap" id="app">
+    <header>
+      <div class="brand">
+        <div class="logo">AC</div>
+        <div>
+          <h1>ChronoCraft</h1>
+          <p class="lead">Your Personal Time Weaver — Age Calculator</p>
+        </div>
+      </div>
+      <div>
+        <button id="themeToggle" class="theme-toggle" title="Toggle theme">🌙</button>
+      </div>
+    </header>
 
-<div class="card">
-  <label for="day">Day</label>
-  <input type="number" id="day" placeholder="e.g., 22" min="1" max="31" />
+    <div class="grid">
+      <!-- left: inputs & ad -->
+      <div>
+        <div class="card">
+          <form id="ageForm" onsubmit="return false;">
+            <div class="form-row">
+              <div class="field">
+                <label for="day">Day</label>
+                <input id="day" type="number" min="1" max="31" placeholder="22" />
+              </div>
+              <div class="field">
+                <label for="month">Month</label>
+                <select id="month" aria-label="Month">
+                  <option value="">— Select month —</option>
+                  <option value="0">January</option><option value="1">February</option>
+                  <option value="2">March</option><option value="3">April</option>
+                  <option value="4">May</option><option value="5">June</option>
+                  <option value="6">July</option><option value="7">August</option>
+                  <option value="8">September</option><option value="9">October</option>
+                  <option value="10">November</option><option value="11">December</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="year">Year</label>
+                <input id="year" type="number" min="1000" max="9999" placeholder="1982" />
+              </div>
+            </div>
 
-  <label for="month">Month</label>
-  <select id="month">
-    <option value="">— Select month —</option>
-    <option value="0">January</option><option value="1">February</option>
-    <option value="2">March</option><option value="3">April</option>
-    <option value="4">May</option><option value="5">June</option>
-    <option value="6">July</option><option value="7">August</option>
-    <option value="8">September</option><option value="9">October</option>
-    <option value="10">November</option><option value="11">December</option>
-  </select>
+            <div style="height:12px"></div>
 
-  <label for="year">Year</label>
-  <input type="number" id="year" placeholder="e.g., 1982" min="1900" max="2100" />
+            <div class="form-row">
+              <div style="flex:0 0 110px">
+                <label><input id="useTime" type="checkbox" /> Add time</label>
+              </div>
+              <div class="field tiny" style="flex:0 0 80px;display:none" id="hourWrap">
+                <label for="hour">Hour</label>
+                <input id="hour" type="number" min="1" max="12" placeholder="5" />
+              </div>
+              <div class="field tiny" style="flex:0 0 80px;display:none" id="minuteWrap">
+                <label for="minute">Minute</label>
+                <input id="minute" type="number" min="0" max="59" placeholder="35" />
+              </div>
+              <div class="field tiny" style="flex:0 0 96px;display:none" id="ampmWrap">
+                <label for="ampm">AM/PM</label>
+                <select id="ampm"><option>AM</option><option>PM</option></select>
+              </div>
+            </div>
 
-  <label><input type="checkbox" id="addTime" /> Add Time of Birth (optional)</label>
-  <div id="timeInputs" style="display:none;">
-    <label>Hour (0-23)</label><input type="number" id="hour" min="0" max="23" />
-    <label>Minute</label><input type="number" id="minute" min="0" max="59" />
-  </div>
+            <div class="controls">
+              <button id="calcBtn" class="btn btn-primary" type="button">Calculate</button>
+              <button id="resetBtn" class="btn btn-ghost" type="button">Reset</button>
+              <div style="flex:1"></div>
+              <div class="muted-small">Tip: leave time blank to use midnight</div>
+            </div>
 
-  <button id="calcBtn">Calculate</button>
-  <button id="resetBtn" style="margin-left:10px; background:#777;">Reset</button>
+            <div style="margin-top:12px">
+              <!-- Ad placeholder (optional) -->
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-client="pub-5173549373434570"
+                   data-ad-slot="1234567890"
+                   data-ad-format="auto"></ins>
+            </div>
+          </form>
+        </div>
+      </div>
 
-  <div class="result" id="result">
-    Fill your details above and click Calculate.
-  </div>
+      <!-- right: results -->
+      <div>
+        <div class="panel">
+          <div class="big-grid">
+            <!-- Precise age -->
+            <div class="stat-card">
+              <h3>Your Precise Age</h3>
+              <div style="height:12px"></div>
+              <div class="stat-grid" id="preciseGrid">
+                <div class="stat-item"><div class="num" id="years">—</div><div class="muted-small">YEARS</div></div>
+                <div class="stat-item"><div class="num" id="months">—</div><div class="muted-small">MONTHS</div></div>
+                <div class="stat-item"><div class="num" id="days">—</div><div class="muted-small">DAYS</div></div>
+                <div class="stat-item"><div class="num" id="hours">—</div><div class="muted-small">HOURS</div></div>
+                <div class="stat-item"><div class="num" id="minutes">—</div><div class="muted-small">MINUTES</div></div>
+                <div class="stat-item"><div class="num" id="seconds">—</div><div class="muted-small">SECONDS</div></div>
+              </div>
+            </div>
 
-  <div class="funfact" id="funfact">Fun fact area — will show a random fact.</div>
-</div>
+            <!-- Next birthday -->
+            <div class="stat-card">
+              <h3>Next Birthday Countdown</h3>
+              <div style="height:12px"></div>
+              <div class="stat-grid" id="countGrid">
+                <div class="stat-item"><div class="num" id="nbDays">—</div><div class="muted-small">DAYS</div></div>
+                <div class="stat-item"><div class="num" id="nbHours">—</div><div class="muted-small">HOURS</div></div>
+                <div class="stat-item"><div class="num" id="nbMinutes">—</div><div class="muted-small">MINUTES</div></div>
+                <div class="stat-item"><div class="num" id="nbSeconds">—</div><div class="muted-small">SECONDS</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="kpi-row">
+            <div class="kpi"><div class="label">Zodiac Sign</div><div class="val" id="zodiac">—</div></div>
+            <div class="kpi"><div class="label">Chinese Zodiac</div><div class="val" id="chinese">—</div></div>
+            <div class="kpi"><div class="label">Born on a</div><div class="val" id="weekday">—</div></div>
+          </div>
+
+          <div class="snapshot" id="snapshot">
+            <h3 style="margin:0 0 6px;color:var(--muted)">Your Birthday Snapshot</h3>
+            <div id="snapshotText" style="color:var(--muted)">Personality trait summary will appear here after calculation.</div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- grid -->
+  </div> <!-- wrap -->
 
 <script>
-const calcBtn = document.getElementById("calcBtn");
-const resetBtn = document.getElementById("resetBtn");
-const addTime = document.getElementById("addTime");
-const timeInputs = document.getElementById("timeInputs");
-const resultDiv = document.getElementById("result");
-const funfactDiv = document.getElementById("funfact");
-const themeToggle = document.getElementById("themeToggle");
+(function(){
+  // DOM
+  const dayEl = document.getElementById('day');
+  const monthEl = document.getElementById('month');
+  const yearEl = document.getElementById('year');
+  const useTimeEl = document.getElementById('useTime');
+  const hourWrap = document.getElementById('hourWrap');
+  const minuteWrap = document.getElementById('minuteWrap');
+  const ampmWrap = document.getElementById('ampmWrap');
+  const hourEl = document.getElementById('hour');
+  const minuteEl = document.getElementById('minute');
+  const ampmEl = document.getElementById('ampm');
+  const calcBtn = document.getElementById('calcBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const themeToggle = document.getElementById('themeToggle');
 
-addTime.addEventListener("change", () => {
-  timeInputs.style.display = addTime.checked ? "block" : "none";
-});
+  // result fields
+  const yearsN = document.getElementById('years');
+  const monthsN = document.getElementById('months');
+  const daysN = document.getElementById('days');
+  const hoursN = document.getElementById('hours');
+  const minutesN = document.getElementById('minutes');
+  const secondsN = document.getElementById('seconds');
 
-themeToggle.addEventListener("click", () => {
-  const current = document.body.getAttribute("data-theme");
-  if (current === "light") {
-    document.body.removeAttribute("data-theme");
-    themeToggle.textContent = "🌙";
-  } else {
-    document.body.setAttribute("data-theme", "light");
-    themeToggle.textContent = "🌞";
+  const nbDays = document.getElementById('nbDays');
+  const nbHours = document.getElementById('nbHours');
+  const nbMinutes = document.getElementById('nbMinutes');
+  const nbSeconds = document.getElementById('nbSeconds');
+
+  const zodiacEl = document.getElementById('zodiac');
+  const chineseEl = document.getElementById('chinese');
+  const weekdayEl = document.getElementById('weekday');
+  const snapshotText = document.getElementById('snapshotText');
+
+  let ticker = null;
+
+  // show/hide time inputs (AM/PM style)
+  useTimeEl.addEventListener('change', ()=>{
+    const show = useTimeEl.checked;
+    hourWrap.style.display = show ? 'block' : 'none';
+    minuteWrap.style.display = show ? 'block' : 'none';
+    ampmWrap.style.display = show ? 'block' : 'none';
+  });
+
+  // theming
+  themeToggle.addEventListener('click', ()=>{
+    const now = document.documentElement.getAttribute('data-theme');
+    if(now === 'light'){
+      document.documentElement.removeAttribute('data-theme');
+      themeToggle.textContent = '🌙';
+    } else {
+      document.documentElement.setAttribute('data-theme','light');
+      themeToggle.textContent = '🌞';
+    }
+  });
+
+  // helpers
+  const pad = v => String(v).padStart(2,'0');
+
+  function computePreciseAge(birth, now){
+    // both are Date objects (local)
+    let y = now.getFullYear() - birth.getFullYear();
+    let m = now.getMonth() - birth.getMonth();
+    let d = now.getDate() - birth.getDate();
+    let hh = now.getHours() - birth.getHours();
+    let mm = now.getMinutes() - birth.getMinutes();
+    let ss = now.getSeconds() - birth.getSeconds();
+
+    if(ss < 0){ ss += 60; mm -= 1; }
+    if(mm < 0){ mm += 60; hh -= 1; }
+    if(hh < 0){ hh += 24; d -= 1; }
+    if(d < 0){
+      // borrow from previous month
+      const prev = new Date(now.getFullYear(), now.getMonth(), 0);
+      d += prev.getDate();
+      m -= 1;
+    }
+    if(m < 0){ m += 12; y -= 1; }
+
+    return {years:y, months:m, days:d, hours:hh, minutes:mm, seconds:ss};
   }
-});
 
-function zodiacSign(day, month) {
-  const zodiacs = [
-    ["Capricorn", 19], ["Aquarius", 18], ["Pisces", 20], ["Aries", 19],
-    ["Taurus", 20], ["Gemini", 20], ["Cancer", 22], ["Leo", 22],
-    ["Virgo", 22], ["Libra", 22], ["Scorpio", 21], ["Sagittarius", 21]
-  ];
-  return (day > zodiacs[month][1]) ? zodiacs[(month+1)%12][0] : zodiacs[month][0];
-}
-
-function chineseZodiac(year) {
-  const animals = ["Rat","Ox","Tiger","Rabbit","Dragon","Snake","Horse","Goat","Monkey","Rooster","Dog","Pig"];
-  return animals[(year - 4) % 12];
-}
-
-calcBtn.addEventListener("click", () => {
-  const day = parseInt(document.getElementById("day").value);
-  const month = parseInt(document.getElementById("month").value);
-  const year = parseInt(document.getElementById("year").value);
-  const hour = parseInt(document.getElementById("hour").value) || 0;
-  const minute = parseInt(document.getElementById("minute").value) || 0;
-
-  if (isNaN(day) || isNaN(month) || isNaN(year)) {
-    alert("Please enter valid date values!");
-    return;
+  function getNextBirthday(birth, now){
+    // preserve time from birth
+    let nb = new Date(now.getFullYear(), birth.getMonth(), birth.getDate(), birth.getHours(), birth.getMinutes(), birth.getSeconds());
+    if(nb <= now){ nb.setFullYear(now.getFullYear()+1); }
+    return nb;
   }
 
-  const birthDate = new Date(year, month, day, hour, minute);
-  const now = new Date();
-
-  if (birthDate > now) {
-    alert("Future birth date is invalid!");
-    return;
+  function getZodiac(day, monthIndex){
+    // monthIndex 0-11
+    const zodiac = [
+      {name:'Capricorn',end:19},{name:'Aquarius',end:18},{name:'Pisces',end:20},{name:'Aries',end:20},
+      {name:'Taurus',end:21},{name:'Gemini',end:21},{name:'Cancer',end:22},{name:'Leo',end:22},
+      {name:'Virgo',end:22},{name:'Libra',end:23},{name:'Scorpio',end:22},{name:'Sagittarius',end:21}
+    ];
+    const idx = monthIndex;
+    return (day > zodiac[idx].end) ? zodiac[(idx+1)%12].name : zodiac[idx].name;
   }
 
-  const diff = now - birthDate;
-  const ageDate = new Date(diff);
-  const years = Math.abs(ageDate.getUTCFullYear() - 1970);
-  const months = now.getMonth() - birthDate.getMonth() + (now.getDate() < day ? -1 : 0);
-  const days = Math.floor((diff / (1000 * 60 * 60 * 24)) % 30.44);
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
+  function getChinese(year){
+    const animals = ['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
+    const idx = ((year - 4) % 12 + 12) % 12;
+    return animals[idx];
+  }
 
-  const nextBirthday = new Date(now.getFullYear(), month, day);
-  if (nextBirthday < now) nextBirthday.setFullYear(now.getFullYear() + 1);
-  const countdown = Math.floor((nextBirthday - now) / (1000 * 60 * 60 * 24));
+  function personalitySnippet(zodiac, chinese){
+    // combine short templates for zodiac & chinese animal
+    const zTraits = {
+      'Aries':'bold, adventurous and energetic',
+      'Taurus':'steady, reliable and sensory-minded',
+      'Gemini':'curious, witty and excellent communicator',
+      'Cancer':'intuitive, caring and protective',
+      'Leo':'confident, warm-hearted and theatrical',
+      'Virgo':'detail-oriented, practical and diligent',
+      'Libra':'harmonious, social and diplomatic',
+      'Scorpio':'intense, profound and fiercely loyal',
+      'Sagittarius':'optimistic, free-spirited and explorer',
+      'Capricorn':'disciplined, goal-driven and practical',
+      'Aquarius':'inventive, humanitarian and independent',
+      'Pisces':'sensitive, imaginative and compassionate'
+    };
+    const cTraits = {
+      'Rat':'clever and resourceful',
+      'Ox':'steady and dependable',
+      'Tiger':'brave and passionate',
+      'Rabbit':'gentle and elegant',
+      'Dragon':'charismatic and energetic',
+      'Snake':'wise and enigmatic',
+      'Horse':'energetic and freedom-loving',
+      'Goat':'creative and compassionate',
+      'Monkey':'clever and playful',
+      'Rooster':'observant and hardworking',
+      'Dog':'loyal and honest',
+      'Pig':'kind and generous'
+    };
 
-  const sign = zodiacSign(day, month);
-  const chinese = chineseZodiac(year);
-  const weekday = birthDate.toLocaleDateString("en-US", { weekday: "long" });
+    const z = zTraits[zodiac] || '';
+    const c = cTraits[chinese] || '';
+    return `You're a ${zodiac} (${z}) with the ${chinese}'s influence (${c}). Together this suggests a person who is ${z.split(',')[0]} yet ${c.split(' ')[0]}, blending unique strengths — a social, curious soul with steady energy and warmth.`;
+  }
 
-  resultDiv.innerHTML = `
-    <strong>Exact age:</strong> ${years} years, ${Math.abs(months)} months, ${days} days<br>
-    <strong>Time:</strong> ${hours}h ${minutes}m ${seconds}s<br>
-    <strong>Next birthday in:</strong> ${countdown} days<br>
-    <strong>Zodiac:</strong> ${sign}<br>
-    <strong>Chinese Zodiac:</strong> ${chinese}<br>
-    <strong>Born on:</strong> ${weekday}
-  `;
+  function startTicker(birth){
+    if(ticker) clearInterval(ticker);
+    ticker = setInterval(()=>{
+      const now = new Date();
+      const parts = computePreciseAge(birth, now);
+      yearsN.textContent = parts.years;
+      monthsN.textContent = parts.months;
+      daysN.textContent = parts.days;
+      hoursN.textContent = pad(parts.hours);
+      minutesN.textContent = pad(parts.minutes);
+      secondsN.textContent = pad(parts.seconds);
 
-  const facts = [
-    "Did you know? Your heart has beaten over a billion times by now!",
-    "Each birthday means you’ve orbited the Sun once more—amazing!",
-    "You’ve experienced roughly " + Math.floor(diff / (1000*60*60*24*365)) + " laps around the Sun.",
-    "Your Chinese Zodiac says something about your personality!",
-    "Every day you live adds roughly 100,000 heartbeats!"
-  ];
-  funfactDiv.textContent = facts[Math.floor(Math.random() * facts.length)];
-});
+      const nb = getNextBirthday(birth, now);
+      let diff = Math.max(0, nb - now);
+      const d = Math.floor(diff / (1000*60*60*24));
+      diff -= d * (1000*60*60*24);
+      const h = Math.floor(diff / (1000*60*60)); diff -= h*(1000*60*60);
+      const mm = Math.floor(diff / (1000*60)); diff -= mm*(1000*60);
+      const s = Math.floor(diff / 1000);
 
-resetBtn.addEventListener("click", () => {
-  document.getElementById("day").value = "";
-  document.getElementById("month").value = "";
-  document.getElementById("year").value = "";
-  document.getElementById("hour").value = "";
-  document.getElementById("minute").value = "";
-  resultDiv.textContent = "Fill your details above and click Calculate.";
-  funfactDiv.textContent = "Fun fact area — will show a random fact.";
-});
+      nbDays.textContent = d;
+      nbHours.textContent = pad(h);
+      nbMinutes.textContent = pad(mm);
+      nbSeconds.textContent = pad(s);
+    }, 1000);
+  }
+
+  // Calculate button handler
+  calcBtn.addEventListener('click', ()=>{
+    // parse inputs
+    const d = parseInt(dayEl.value, 10);
+    const mIndex = parseInt(monthEl.value, 10);
+    const y = parseInt(yearEl.value, 10);
+
+    if(isNaN(d) || isNaN(mIndex) || isNaN(y)){
+      alert('Please enter a valid day, month and year.');
+      return;
+    }
+    // time
+    let hour = 0, minute = 0;
+    if(useTimeEl.checked){
+      let hh = parseInt(hourEl.value,10);
+      let mm = parseInt(minuteEl.value,10);
+      const ampm = ampmEl.value;
+      if(isNaN(hh) || hh < 1 || hh > 12){ alert('Enter hour between 1 and 12'); return; }
+      if(isNaN(mm) || mm < 0 || mm > 59){ alert('Enter minute between 0 and 59'); return; }
+      if(ampm === 'PM' && hh !== 12) hh += 12;
+      if(ampm === 'AM' && hh === 12) hh = 0;
+      hour = hh; minute = mm;
+    } else {
+      hour = 0; minute = 0;
+    }
+
+    // construct birth date (local)
+    const birth = new Date(y, mIndex, d, hour, minute, 0, 0);
+    const now = new Date();
+    if(birth > now){
+      alert('Birth date/time cannot be in the future.');
+      return;
+    }
+
+    // initial one-time population (ticker will update live)
+    const parts = computePreciseAge(birth, now);
+    yearsN.textContent = parts.years;
+    monthsN.textContent = parts.months;
+    daysN.textContent = parts.days;
+    hoursN.textContent = pad(parts.hours);
+    minutesN.textContent = pad(parts.minutes);
+    secondsN.textContent = pad(parts.seconds);
+
+    // next birthday
+    const nb = getNextBirthday(birth, now);
+    let diff = Math.max(0, nb - now);
+    const dd = Math.floor(diff / (1000*60*60*24)); diff -= dd*(1000*60*60*24);
+    const hh = Math.floor(diff / (1000*60*60)); diff -= hh*(1000*60*60);
+    const mm = Math.floor(diff / (1000*60)); diff -= mm*(1000*60);
+    const ss = Math.floor(diff / 1000);
+    nbDays.textContent = dd; nbHours.textContent = pad(hh); nbMinutes.textContent = pad(mm); nbSeconds.textContent = pad(ss);
+
+    // zodiac & chinese & weekday
+    const zodiac = getZodiac(d, mIndex);
+    const chinese = getChinese(y);
+    zodiacEl.textContent = zodiac;
+    chineseEl.textContent = chinese;
+    weekdayEl.textContent = birth.toLocaleDateString(undefined, { weekday: 'long' });
+
+    // snapshot
+    snapshotText.textContent = personalitySnippet(zodiac, chinese);
+
+    // start live ticker
+    startTicker(birth);
+  });
+
+  // reset
+  resetBtn.addEventListener('click', ()=>{
+    dayEl.value = monthEl.value = yearEl.value = '';
+    hourEl.value = minuteEl.value = '';
+    useTimeEl.checked = false;
+    hourWrap.style.display = minuteWrap.style.display = ampmWrap.style.display = 'none';
+    // clear displays
+    yearsN.textContent = monthsN.textContent = daysN.textContent = hoursN.textContent = minutesN.textContent = secondsN.textContent = '—';
+    nbDays.textContent = nbHours.textContent = nbMinutes.textContent = nbSeconds.textContent = '—';
+    zodiacEl.textContent = chineseEl.textContent = weekdayEl.textContent = '—';
+    snapshotText.textContent = 'Personality trait summary will appear here after calculation.';
+    if(ticker) { clearInterval(ticker); ticker = null; }
+  });
+
+  // accessibility: Enter key submits
+  document.getElementById('ageForm').addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter'){ e.preventDefault(); calcBtn.click(); }
+  });
+
+  // ensure select options visible in dark mode: some browsers ignore option styles, but this helps most.
+})();
 </script>
 </body>
 </html>
