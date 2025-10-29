@@ -3,137 +3,256 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ChronoCraft | Age Calculator</title>
+<title>ChronoCraft — Age Calculator</title>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-5173549373434570" crossorigin="anonymous"></script>
+
 <style>
-  :root {
-    --primary: #8b5cf6;
-    --secondary: #ec4899;
-    --bg-dark: #0f172a;
-    --bg-light: #f8fafc;
-    --text-dark: #1e293b;
-    --text-light: #f8fafc;
-  }
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: var(--bg-dark);
-    color: var(--text-light);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-    transition: background 0.4s, color 0.4s;
-  }
-  .light-mode {
-    background: var(--bg-light);
-    color: var(--text-dark);
-  }
-  .container {
-    width: 90%;
-    max-width: 650px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    transition: background 0.4s, color 0.4s;
-  }
-  .light-mode .container {
-    background: #ffffff;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-  h1 {
-    font-size: 2.2rem;
-    text-align: center;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  h2 {
-    text-align: center;
-    font-weight: 500;
-    margin-top: 0;
-    opacity: 0.8;
-  }
-  label, select, input {
-    display: block;
-    width: 100%;
-    margin: 0.5rem 0;
-    font-size: 1rem;
-  }
-  select, input[type="number"] {
-    padding: 0.6rem;
-    border-radius: 0.5rem;
-    border: 1px solid #94a3b8;
-    background: transparent;
-    color: inherit;
-  }
-  button {
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    color: #fff;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.6rem;
-    cursor: pointer;
-    font-size: 1rem;
-    margin: 0.5rem;
-    transition: transform 0.2s;
-  }
-  button:hover { transform: scale(1.05); }
-  .result {
-    margin-top: 1.5rem;
-    text-align: center;
-    line-height: 1.6;
-  }
-  .toggle-mode {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    cursor: pointer;
-    font-size: 1.5rem;
-  }
-  .fun-fact {
-    margin-top: 1rem;
-    font-style: italic;
-    opacity: 0.9;
-    text-align: center;
-  }
-  @media(max-width:600px){
-    .container{padding:1.5rem;}
-    h1{font-size:1.7rem;}
-  }
+:root {
+  --bg: #0b132b;
+  --card-bg: #1c2541;
+  --text: #ffffff;
+  --accent: linear-gradient(90deg, #ff6ec4, #7873f5);
+  --input-bg: #24305e;
+}
+[data-theme="light"] {
+  --bg: #f8f8fa;
+  --card-bg: #ffffff;
+  --text: #1a1a1a;
+  --input-bg: #f0f0f3;
+}
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+h1 {
+  text-align: center;
+  background: var(--accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 40px;
+  font-size: 2rem;
+}
+.card {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  margin: 20px;
+  transition: background 0.4s ease;
+}
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 1rem;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+select option {
+  background-color: var(--card-bg);
+  color: var(--text);
+}
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+button:hover { opacity: 0.85; }
+.result {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  background: var(--input-bg);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text);
+  cursor: pointer;
+}
+.funfact {
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  font-style: italic;
+}
 </style>
 </head>
+
 <body>
-<div class="toggle-mode" id="modeToggle">🌙</div>
-<div class="container">
-  <h1>ChronoCraft</h1>
-  <h2>Your Personal Time Weaver</h2>
-  <form id="ageForm">
-    <label>Day</label>
-    <input type="number" id="day" min="1" max="31" required>
-    <label>Month</label>
-    <select id="month" required>
-      <option value="">--Select Month--</option>
-      <option value="1">January</option>
-      <option value="2">February</option>
-      <option value="3">March</option>
-      <option value="4">April</option>
-      <option value="5">May</option>
-      <option value="6">June</option>
-      <option value="7">July</option>
-      <option value="8">August</option>
-      <option value="9">September</option>
-      <option value="10">October</option>
-      <option value="11">November</option>
-      <option value="12">December</option>
-    </select>
-    <label>Year</label>
-    <input type="number" id="year" min="1900" max="2100" required>
-    <label><input type="checkbox" id="addTime"> Add Time of Birth (optional)</label>
-    <div id="timeInputs" style="display:none">
-      <label>Hour</label>
-      <input type="number" id="hour" min="1" max="12">
-      <label>Minute</label>
-      <input type="
+<button class="theme-toggle" id="themeToggle">🌙</button>
+<h1>ChronoCraft</h1>
+<p style="text-align:center; opacity:0.8;">Your Personal Time Weaver — Age Calculator</p>
+
+<div class="card">
+  <label for="day">Day</label>
+  <input type="number" id="day" placeholder="e.g., 22" min="1" max="31" />
+
+  <label for="month">Month</label>
+  <select id="month">
+    <option value="">— Select month —</option>
+    <option value="0">January</option><option value="1">February</option>
+    <option value="2">March</option><option value="3">April</option>
+    <option value="4">May</option><option value="5">June</option>
+    <option value="6">July</option><option value="7">August</option>
+    <option value="8">September</option><option value="9">October</option>
+    <option value="10">November</option><option value="11">December</option>
+  </select>
+
+  <label for="year">Year</label>
+  <input type="number" id="year" placeholder="e.g., 1982" min="1900" max="2100" />
+
+  <label><input type="checkbox" id="addTime" /> Add Time of Birth (optional)</label>
+  <div id="timeInputs" style="display:none;">
+    <label>Hour (0-23)</label><input type="number" id="hour" min="0" max="23" />
+    <label>Minute</label><input type="number" id="minute" min="0" max="59" />
+  </div>
+
+  <button id="calcBtn">Calculate</button>
+  <button id="resetBtn" style="margin-left:10px; background:#777;">Reset</button>
+
+  <div class="result" id="result">
+    Fill your details above and click Calculate.
+  </div>
+
+  <div class="funfact" id="funfact">Fun fact area — will show a random fact.</div>
+</div>
+
+<script>
+const calcBtn = document.getElementById("calcBtn");
+const resetBtn = document.getElementById("resetBtn");
+const addTime = document.getElementById("addTime");
+const timeInputs = document.getElementById("timeInputs");
+const resultDiv = document.getElementById("result");
+const funfactDiv = document.getElementById("funfact");
+const themeToggle = document.getElementById("themeToggle");
+
+addTime.addEventListener("change", () => {
+  timeInputs.style.display = addTime.checked ? "block" : "none";
+});
+
+themeToggle.addEventListener("click", () => {
+  const current = document.body.getAttribute("data-theme");
+  if (current === "light") {
+    document.body.removeAttribute("data-theme");
+    themeToggle.textContent = "🌙";
+  } else {
+    document.body.setAttribute("data-theme", "light");
+    themeToggle.textContent = "🌞";
+  }
+});
+
+function zodiacSign(day, month) {
+  const zodiacs = [
+    ["Capricorn", 19], ["Aquarius", 18], ["Pisces", 20], ["Aries", 19],
+    ["Taurus", 20], ["Gemini", 20], ["Cancer", 22], ["Leo", 22],
+    ["Virgo", 22], ["Libra", 22], ["Scorpio", 21], ["Sagittarius", 21]
+  ];
+  return (day > zodiacs[month][1]) ? zodiacs[(month+1)%12][0] : zodiacs[month][0];
+}
+
+function chineseZodiac(year) {
+  const animals = ["Rat","Ox","Tiger","Rabbit","Dragon","Snake","Horse","Goat","Monkey","Rooster","Dog","Pig"];
+  return animals[(year - 4) % 12];
+}
+
+calcBtn.addEventListener("click", () => {
+  const day = parseInt(document.getElementById("day").value);
+  const month = parseInt(document.getElementById("month").value);
+  const year = parseInt(document.getElementById("year").value);
+  const hour = parseInt(document.getElementById("hour").value) || 0;
+  const minute = parseInt(document.getElementById("minute").value) || 0;
+
+  if (isNaN(day) || isNaN(month) || isNaN(year)) {
+    alert("Please enter valid date values!");
+    return;
+  }
+
+  const birthDate = new Date(year, month, day, hour, minute);
+  const now = new Date();
+
+  if (birthDate > now) {
+    alert("Future birth date is invalid!");
+    return;
+  }
+
+  const diff = now - birthDate;
+  const ageDate = new Date(diff);
+  const years = Math.abs(ageDate.getUTCFullYear() - 1970);
+  const months = now.getMonth() - birthDate.getMonth() + (now.getDate() < day ? -1 : 0);
+  const days = Math.floor((diff / (1000 * 60 * 60 * 24)) % 30.44);
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  const nextBirthday = new Date(now.getFullYear(), month, day);
+  if (nextBirthday < now) nextBirthday.setFullYear(now.getFullYear() + 1);
+  const countdown = Math.floor((nextBirthday - now) / (1000 * 60 * 60 * 24));
+
+  const sign = zodiacSign(day, month);
+  const chinese = chineseZodiac(year);
+  const weekday = birthDate.toLocaleDateString("en-US", { weekday: "long" });
+
+  resultDiv.innerHTML = `
+    <strong>Exact age:</strong> ${years} years, ${Math.abs(months)} months, ${days} days<br>
+    <strong>Time:</strong> ${hours}h ${minutes}m ${seconds}s<br>
+    <strong>Next birthday in:</strong> ${countdown} days<br>
+    <strong>Zodiac:</strong> ${sign}<br>
+    <strong>Chinese Zodiac:</strong> ${chinese}<br>
+    <strong>Born on:</strong> ${weekday}
+  `;
+
+  const facts = [
+    "Did you know? Your heart has beaten over a billion times by now!",
+    "Each birthday means you’ve orbited the Sun once more—amazing!",
+    "You’ve experienced roughly " + Math.floor(diff / (1000*60*60*24*365)) + " laps around the Sun.",
+    "Your Chinese Zodiac says something about your personality!",
+    "Every day you live adds roughly 100,000 heartbeats!"
+  ];
+  funfactDiv.textContent = facts[Math.floor(Math.random() * facts.length)];
+});
+
+resetBtn.addEventListener("click", () => {
+  document.getElementById("day").value = "";
+  document.getElementById("month").value = "";
+  document.getElementById("year").value = "";
+  document.getElementById("hour").value = "";
+  document.getElementById("minute").value = "";
+  resultDiv.textContent = "Fill your details above and click Calculate.";
+  funfactDiv.textContent = "Fun fact area — will show a random fact.";
+});
+</script>
+</body>
+</html>
