@@ -1,158 +1,460 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark"> <!-- Default to dark mode -->
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChronoCraft | Age Calculator</title>
-<style>
-  * {box-sizing: border-box; transition: all 0.3s ease;}
-  body {
-    margin: 0; font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #0a0b1a, #1b1c3c); color: white;
-    display: flex; justify-content: center; align-items: center; min-height: 100vh; flex-direction: column;
-  }
-  .container { width: 95%; max-width: 900px; background: rgba(18,18,43,0.95); border-radius: 20px; padding: 20px; box-shadow: 0 0 25px rgba(155,92,246,0.4); position: relative; }
-  h1 { text-align: center; color: #9b5cf6; text-shadow: 0 0 10px #7b3ded; display: flex; align-items: center; justify-content: center; gap: 10px; }
-  h1 img { width: 40px; height: 40px; }
-  .theme-toggle {
-    position: absolute; top: 20px; right: 20px; background: #1e1f3b; border-radius: 50%; padding: 8px; cursor: pointer;
-  }
-  .input-section { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
-  input, select, button { padding: 12px; border: none; border-radius: 10px; outline: none; font-size: 1rem; }
-  input, select { background: #1e1f3b; color: white; }
-  button { background: linear-gradient(45deg, #9b5cf6, #7b3ded); color: white; cursor: pointer; box-shadow: 0 0 10px #7b3ded; }
-  button:hover { transform: scale(1.05); }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-  .card { background: #18193a; border-radius: 15px; padding: 15px; text-align: center; }
-  .card:hover { transform: translateY(-5px); box-shadow: 0 0 15px #7b3ded; }
-  .card h2 { color: #b98dfc; }
-  .card span { display: block; font-size: 1.8rem; font-weight: bold; color: #f39bff; }
-  .snapshot { margin-top: 20px; background: #101025; padding: 20px; border-radius: 15px; }
-  .snapshot h3 { color: #5176ff; text-align: center; margin-bottom: 10px; }
-  .snapshot section { margin: 10px 0; }
-  .snapshot h4 { color: #9b5cf6; margin-bottom: 5px; }
-  .snapshot p { color: #ddd; line-height: 1.5; }
-  .live { font-size: 1.1rem; color: #6efaff; text-align: center; margin-top: 10px; }
-  @media (max-width: 600px){ .container{ padding: 10px; } .card span{ font-size: 1.3rem; } h1 img{ width: 30px; height: 30px; } }
-  .adsense { margin: 20px 0; text-align: center; }
-  body.light-mode { background: linear-gradient(135deg, #f9f9ff, #dfe7ff); color: #222; }
-  body.light-mode .container { background: white; color: black; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
-  body.light-mode .card { background: #f3f3ff; }
-  body.light-mode button { background: linear-gradient(45deg, #7b3ded, #9b5cf6); }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChronoCraft | Modern Age Calculator</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <style>
+        /* Use the Inter font family */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Custom styles for the live age counter blocks */
+        #age-display .age-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            min-width: 60px;
+        }
+
+        #age-display .age-value {
+            font-size: 2.25rem; /* 3xl */
+            font-weight: 800; /* extrabold */
+            line-height: 1.1;
+        }
+
+        #age-display .age-label {
+            font-size: 0.875rem; /* sm */
+            font-weight: 500; /* medium */
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+        
+        /* Hide number input spinners */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        /* Custom focus ring color */
+        .focus-visible-ring {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+        }
+        .focus-visible-ring:focus-visible {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.6); /* focus:ring-indigo-500 with opacity */
+        }
+
+        /* Hide/show theme icons */
+        .dark #theme-icon-sun { display: block; }
+        .dark #theme-icon-moon { display: none; }
+        html:not(.dark) #theme-icon-sun { display: none; }
+        html:not(.dark) #theme-icon-moon { display: block; }
+    </style>
+
+    <script>
+        // Set Tailwind dark mode
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-  <div class="container">
-    <div class="theme-toggle" onclick="toggleTheme()">🌗</div>
-    <h1><img src="https://cdn-icons-png.flaticon.com/512/2920/2920261.png" alt="logo">ChronoCraft</h1>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex items-center justify-center min-h-screen p-4 transition-colors duration-300">
 
-    <div class="input-section">
-      <input type="number" id="day" placeholder="Day" min="1" max="31">
-      <input type="number" id="month" placeholder="Month" min="1" max="12">
-      <input type="number" id="year" placeholder="Year" min="1900" max="2100">
-      <input type="number" id="hour" placeholder="Hour (optional)" min="1" max="12">
-      <input type="number" id="minute" placeholder="Minute" min="0" max="59">
-      <select id="ampm"><option>AM</option><option>PM</option></select>
-      <button onclick="calculateAge()">Calculate</button>
-    </div>
+    <main class="w-full max-w-5xl mx-auto">
+        <div class="w-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border border-gray-200 dark:border-gray-700/50 rounded-2xl shadow-2xl p-6 md:p-10">
+            
+            <!-- Header: Title + Theme Toggle -->
+            <header class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center gap-3">
+                    <i data-lucide="calendar-clock" class="w-8 h-8"></i>
+                    ChronoCraft
+                </h1>
+                <button id="theme-toggle" title="Toggle theme" class="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all focus-visible-ring">
+                    <i id="theme-icon-sun" data-lucide="sun" class="w-6 h-6"></i>
+                    <i id="theme-icon-moon" data-lucide="moon" class="w-6 h-6"></i>
+                </button>
+            </header>
 
-    <div class="cards" id="results" style="display:none;">
-      <div class="card"><h2>Your Exact Age</h2><span id="age"></span></div>
-      <div class="card"><h2>Next Birthday Countdown</h2><span id="countdown"></span></div>
-      <div class="card"><h2>Zodiac Sign</h2><span id="zodiac"></span></div>
-      <div class="card"><h2>Chinese Zodiac</h2><span id="chineseZodiac"></span></div>
-      <div class="card"><h2>Born on</h2><span id="dayOfWeek"></span></div>
-    </div>
+            <!-- Input Form -->
+            <section id="input-form" class="mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Date Inputs -->
+                    <div class="space-y-3">
+                        <label class="text-base font-semibold text-gray-700 dark:text-gray-300">Date of Birth</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <input type="number" id="day" placeholder="Day" min="1" max="31" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Day of Birth">
+                            <input type="number" id="month" placeholder="Month" min="1" max="12" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Month of Birth">
+                            <input type="number" id="year" placeholder="Year" min="1900" max="2100" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Year of Birth">
+                        </div>
+                    </div>
+                    
+                    <!-- Time Inputs -->
+                    <div class="space-y-3">
+                        <label class="text-base font-semibold text-gray-700 dark:text-gray-300">Time of Birth <span class="text-sm font-normal opacity-70">(Optional)</span></label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <input type="number" id="hour" placeholder="Hour" min="1" max="12" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Hour of Birth">
+                            <input type="number" id="minute" placeholder="Min" min="0" max="59" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring" aria-label="Minute of Birth">
+                            <select id="ampm" class="w-full p-3 text-center rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-500 outline-none focus-visible-ring cursor-pointer" aria-label="AM or PM">
+                                <option>AM</option>
+                                <option>PM</option>
+                            </select>
+                        </div>
+                    </div>
 
-    <div class="snapshot" id="snapshot" style="display:none;">
-      <h3>🎂 Your Birthday Snapshot 🎉</h3>
-      <section>
-        <h4>✨ Personality Trait</h4>
-        <p id="trait"></p>
-      </section>
-      <section>
-        <h4>🌟 Famous Peers</h4>
-        <p>Arthur Conan Doyle (author)<br>Naomi Campbell (supermodel)<br>Novak Djokovic (tennis superstar)<br>Ginnifer Goodwin (actress)</p>
-      </section>
-      <section>
-        <h4>📜 On This Day in History</h4>
-        <p>On this very day in 1906, the Wright brothers were granted a U.S. patent for their 'flying machine,' soaring into history and changing the world forever!</p>
-      </section>
-      <div class="live" id="liveTimer"></div>
-    </div>
+                    <!-- Calculate Button -->
+                    <div class="md:mt-auto">
+                        <label class="text-base font-semibold text-transparent select-none hidden md:block">Calculate</label>
+                        <button id="calculate-btn" class="w-full p-3.5 mt-3 md:mt-0 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg shadow-lg hover:opacity-90 transition-all transform hover:scale-105 active:scale-100 focus-visible-ring">
+                            Calculate
+                        </button>
+                    </div>
+                </div>
+            </section>
 
-    <div class="adsense">
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5173549373434570" crossorigin="anonymous"></script>
-    </div>
-  </div>
+            <!-- Error Message Area -->
+            <div id="error-message" class="text-red-500 dark:text-red-400 text-center mb-6 text-lg font-medium hidden"></div>
+
+            <!-- Results Section -->
+            <section id="results-container" class="hidden space-y-6">
+                
+                <!-- Live Age Card -->
+                <div id="live-age-card" class="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 rounded-2xl shadow-xl text-white text-center">
+                    <h2 class="text-xl font-semibold mb-4 opacity-90">Your Precise Age</h2>
+                    <div id="age-display" class="flex flex-wrap items-center justify-center gap-2 md:gap-4">
+                        <!-- Content injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Next Birthday + Day of Week -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Next Birthday Card -->
+                    <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                        <h2 class="flex items-center gap-2 text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                            <i data-lucide="party-popper" class="w-5 h-5 text-indigo-500"></i>
+                            Next Birthday
+                        </h2>
+                        <div id="countdown" class="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-2xl font-bold text-gray-900 dark:text-white">
+                            <!-- Content injected by JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Day of Week Card -->
+                    <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                        <h2 class="flex items-center gap-2 text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                            <i data-lucide="calendar-days" class="w-5 h-5 text-indigo-500"></i>
+                            Born on a
+                        </h2>
+                        <span id="dayOfWeek" class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">
+                            <!-- Content injected by JS -->
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Age Summary Cards -->
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">Age Summary</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <!-- Total Years -->
+                        <div class="stat-card">
+                            <h3 class="stat-title">Years</h3>
+                            <span id="totalYears" class="stat-value"></span>
+                        </div>
+                        <!-- Total Months -->
+                        <div class="stat-card">
+                            <h3 class="stat-title">Months</h3>
+                            <span id="totalMonths" class="stat-value"></span>
+                        </div>
+                        <!-- Total Weeks -->
+                        <div class="stat-card">
+                            <h3 class="stat-title">Weeks</h3>
+                            <span id="totalWeeks" class="stat-value"></span>
+                        </div>
+                        <!-- Total Days -->
+                        <div class="stat-card">
+                            <h3 class="stat-title">Days</h3>
+                            <span id="totalDays" class="stat-value"></span>
+                        </div>
+                        <!-- Total Hours -->
+                        <div class="stat-card">
+                            <h3 class="stat-title">Hours</h3>
+                            <span id="totalHours" class="stat-value"></span>
+                        </div>
+                        <!-- Total Minutes -->
+                        <div class="stat-card">
+                            <h3 class="stat-title">Minutes</h3>
+                            <span id="totalMinutes" class="stat-value"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Zodiac & Personality -->
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">Life Path</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="stat-card">
+                            <h3 class="stat-title">Zodiac Sign</h3>
+                            <span id="zodiac" class="stat-value text-indigo-500 dark:text-indigo-400"></span>
+                        </div>
+                        <div class="stat-card">
+                            <h3 class="stat-title">Chinese Zodiac</h3>
+                            <span id="chineseZodiac" class="stat-value text-indigo-500 dark:text-indigo-400"></span>
+                        </div>
+                        <div class="stat-card md:col-span-1 lg:col-span-1">
+                            <h3 class="stat-title">Personality Trait</h3>
+                            <p id="trait" class="text-sm text-gray-600 dark:text-gray-300 mt-1"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            
+        </div>
+    </main>
 
 <script>
-let liveInterval;
-function calculateAge(){
-  const d = parseInt(document.getElementById('day').value);
-  const m = parseInt(document.getElementById('month').value)-1;
-  const y = parseInt(document.getElementById('year').value);
-  let hr = parseInt(document.getElementById('hour').value) || 0;
-  const min = parseInt(document.getElementById('minute').value) || 0;
-  const ampm = document.getElementById('ampm').value;
-  if(ampm === 'PM' && hr < 12) hr += 12;
-  if(ampm === 'AM' && hr === 12) hr = 0;
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DOM Elements ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const dayEl = document.getElementById('day');
+        const monthEl = document.getElementById('month');
+        const yearEl = document.getElementById('year');
+        const hourEl = document.getElementById('hour');
+        const minuteEl = document.getElementById('minute');
+        const ampmEl = document.getElementById('ampm');
+        const calcBtn = document.getElementById('calculate-btn');
+        const errorEl = document.getElementById('error-message');
+        const resultsContainer = document.getElementById('results-container');
+        
+        // Result fields
+        const ageDisplayEl = document.getElementById('age-display');
+        const countdownEl = document.getElementById('countdown');
+        const dayOfWeekEl = document.getElementById('dayOfWeek');
+        const totalYearsEl = document.getElementById('totalYears');
+        const totalMonthsEl = document.getElementById('totalMonths');
+        const totalWeeksEl = document.getElementById('totalWeeks');
+        const totalDaysEl = document.getElementById('totalDays');
+        const totalHoursEl = document.getElementById('totalHours');
+        const totalMinutesEl = document.getElementById('totalMinutes');
+        const zodiacEl = document.getElementById('zodiac');
+        const chineseZodiacEl = document.getElementById('chineseZodiac');
+        const traitEl = document.getElementById('trait');
 
-  const birthDate = new Date(y, m, d, hr, min);
-  if(isNaN(birthDate)) return alert('Please fill all fields correctly.');
+        let liveInterval; // To store the setInterval ID
 
-  updateAge(birthDate);
-  clearInterval(liveInterval);
-  liveInterval = setInterval(()=>updateAge(birthDate),1000);
-}
+        // --- Utility Classes for Tailwind (applied via JS) ---
+        const statCardBase = "bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700";
+        const statTitleBase = "text-sm font-medium text-gray-500 dark:text-gray-400";
+        const statValueBase = "text-2xl font-bold text-gray-900 dark:text-white mt-1 block";
+        
+        // Apply utility classes to stat cards
+        document.querySelectorAll('.stat-card').forEach(card => card.className = statCardBase);
+        document.querySelectorAll('.stat-title').forEach(title => title.className = statTitleBase);
+        document.querySelectorAll('.stat-value').forEach(value => value.className = statValueBase);
 
-function updateAge(birthDate){
-  const now = new Date();
-  let diff = now - birthDate;
-  let ageDate = new Date(diff);
-  let years = ageDate.getUTCFullYear() - 1970;
-  let months = ageDate.getUTCMonth();
-  let days = ageDate.getUTCDate() - 1;
-  let hours = ageDate.getUTCHours();
-  let minutes = ageDate.getUTCMinutes();
-  let seconds = ageDate.getUTCSeconds();
-  document.getElementById('age').innerText = `${years}y ${months}m ${days}d ${hours}h ${minutes}m ${seconds}s`;
 
-  let nextBirthday = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate(), birthDate.getHours(), birthDate.getMinutes());
-  if(nextBirthday < now) nextBirthday.setFullYear(now.getFullYear()+1);
-  let countdownDiff = nextBirthday - now;
-  let cd = Math.floor(countdownDiff/(1000*60*60*24));
-  let ch = Math.floor((countdownDiff/(1000*60*60))%24);
-  let cm = Math.floor((countdownDiff/(1000*60))%60);
-  let cs = Math.floor((countdownDiff/1000)%60);
-  document.getElementById('countdown').innerText = `${cd}d ${ch}h ${cm}m ${cs}s`;
+        // --- Theme Toggle Logic ---
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            // Re-render icons after theme change
+            lucide.createIcons();
+        };
 
-  const zodiac = getZodiac(birthDate.getDate(), birthDate.getMonth()+1);
-  document.getElementById('zodiac').innerText = zodiac;
+        const toggleTheme = () => {
+            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        };
 
-  const animals = ['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
-  const chinese = animals[(birthDate.getFullYear() - 4) % 12];
-  document.getElementById('chineseZodiac').innerText = chinese;
+        themeToggleBtn.addEventListener('click', toggleTheme);
 
-  const weekday = birthDate.toLocaleDateString('en-US', { weekday: 'long' });
-  document.getElementById('dayOfWeek').innerText = weekday;
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTheme(savedTheme);
 
-  document.getElementById('trait').innerText = `You're a delightful blend of ${zodiac}'s charm and the ${chinese}'s energy! This makes you communicative, adventurous, and full of life — a true social butterfly with an independent streak!`;
 
-  document.getElementById('liveTimer').innerText = `⏱ Live Age Counter updated: ${new Date().toLocaleTimeString()}`;
+        // --- Calculation Logic ---
+        calcBtn.addEventListener('click', handleCalculate);
 
-  document.getElementById('results').style.display = 'grid';
-  document.getElementById('snapshot').style.display = 'block';
-}
+        function handleCalculate() {
+            clearInterval(liveInterval); // Stop any previous timer
+            errorEl.classList.add('hidden'); // Hide old errors
 
-function getZodiac(day, month){
-  const zodiac = ['Capricorn','Aquarius','Pisces','Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius'];
-  const lastDay = [19,18,20,19,20,20,22,22,22,23,21,21];
-  return (day > lastDay[month-1]) ? zodiac[month%12] : zodiac[month-1];
-}
+            // Get and parse values
+            const d = parseInt(dayEl.value);
+            const m = parseInt(monthEl.value) - 1; // JS months are 0-11
+            const y = parseInt(yearEl.value);
+            let hr = parseInt(hourEl.value) || 0; // Default to 0 if empty
+            const min = parseInt(minuteEl.value) || 0; // Default to 0 if empty
+            const ampm = ampmEl.value;
+            
+            // --- Input Validation ---
+            if (isNaN(d) || isNaN(m) || isNaN(y)) {
+                showError('Please enter a valid day, month, and year.');
+                return;
+            }
+            if (y < 1900 || y > 2100) {
+                showError('Please enter a year between 1900 and 2100.');
+                return;
+            }
+            // Check for invalid dates like Feb 30
+            const tempDate = new Date(y, m, d);
+            if (tempDate.getDate() !== d || tempDate.getMonth() !== m || tempDate.getFullYear() !== y) {
+                showError('That date doesn\'t exist. Please check your values.');
+                return;
+            }
 
-function toggleTheme(){
-  document.body.classList.toggle('light-mode');
-}
+            // Adjust hour for PM
+            if (ampm === 'PM' && hr < 12) hr += 12;
+            if (ampm === 'AM' && hr === 12) hr = 0; // Midnight case
+
+            const birthDate = new Date(y, m, d, hr, min);
+
+            if (birthDate > new Date()) {
+                showError('Date of birth cannot be in the future.');
+                return;
+            }
+
+            // Initial UI update
+            updateUI(birthDate);
+            
+            // Start live timer
+            liveInterval = setInterval(() => updateUI(birthDate), 1000);
+
+            // Show results
+            resultsContainer.classList.remove('hidden');
+        }
+
+        function updateUI(birthDate) {
+            const now = new Date();
+            
+            // 1. Precise Age (Years, Months, Days, etc.)
+            let years = now.getFullYear() - birthDate.getFullYear();
+            let months = now.getMonth() - birthDate.getMonth();
+            let days = now.getDate() - birthDate.getDate();
+            let hours = now.getHours() - birthDate.getHours();
+            let minutes = now.getMinutes() - birthDate.getMinutes();
+            let seconds = now.getSeconds() - birthDate.getSeconds();
+
+            // Handle "borrows"
+            if (seconds < 0) { seconds += 60; minutes--; }
+            if (minutes < 0) { minutes += 60; hours--; }
+            if (hours < 0) { hours += 24; days--; }
+            if (days < 0) { 
+                const daysInLastMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+                days += daysInLastMonth; 
+                months--; 
+            }
+            if (months < 0) { months += 12; years--; }
+
+            ageDisplayEl.innerHTML = `
+                <div class="age-block"><span class="age-value">${years}</span><span class="age-label">Years</span></div>
+                <div class="age-block"><span class="age-value">${months}</span><span class="age-label">Months</span></div>
+                <div class="age-block"><span class="age-value">${days}</span><span class="age-label">Days</span></div>
+                <div class="age-block hidden md:flex"><span class="age-value">${hours}</span><span class="age-label">Hours</span></div>
+                <div class="age-block hidden md:flex"><span class="age-value">${minutes}</span><span class="age-label">Mins</span></div>
+                <div class="age-block hidden md:flex"><span class="age-value">${seconds}</span><span class="age-label">Secs</span></div>
+            `;
+
+            // 2. Next Birthday Countdown
+            let nextBirthday = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate(), birthDate.getHours(), birthDate.getMinutes());
+            if (nextBirthday < now) {
+                nextBirthday.setFullYear(now.getFullYear() + 1);
+            }
+            let countdownDiff = nextBirthday - now;
+            let cd_d = Math.floor(countdownDiff / (1000 * 60 * 60 * 24));
+            let cd_h = Math.floor((countdownDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let cd_m = Math.floor((countdownDiff % (1000 * 60 * 60)) / (1000 * 60));
+            let cd_s = Math.floor((countdownDiff % (1000 * 60)) / 1000);
+
+            countdownEl.innerHTML = `
+                <span><span class="text-3xl font-extrabold text-indigo-500 dark:text-indigo-400">${cd_d}</span>d</span>
+                <span><span class="text-3xl font-extrabold text-indigo-500 dark:text-indigo-400">${cd_h}</span>h</span>
+                <span><span class="text-3xl font-extrabold text-indigo-500 dark:text-indigo-400">${cd_m}</span>m</span>
+                <span><span class="text-3xl font-extrabold text-indigo-500 dark:text-indigo-400">${cd_s}</span>s</span>
+            `;
+
+            // 3. Day of Week
+            dayOfWeekEl.textContent = birthDate.toLocaleDateString('en-US', { weekday: 'long' });
+
+            // 4. Age Summary
+            const totalDiffMs = now - birthDate;
+            const totalDiffSecs = Math.floor(totalDiffMs / 1000);
+            const totalDiffMins = Math.floor(totalDiffSecs / 60);
+            const totalDiffHours = Math.floor(totalDiffMins / 60);
+            const totalDiffDays = Math.floor(totalDiffHours / 24);
+            const totalDiffWeeks = Math.floor(totalDiffDays / 7);
+            const totalDiffMonths = years * 12 + months;
+
+            totalYearsEl.textContent = years.toLocaleString();
+            totalMonthsEl.textContent = totalDiffMonths.toLocaleString();
+            totalWeeksEl.textContent = totalDiffWeeks.toLocaleString();
+            totalDaysEl.textContent = totalDiffDays.toLocaleString();
+            totalHoursEl.textContent = totalDiffHours.toLocaleString();
+            totalMinutesEl.textContent = totalDiffMins.toLocaleString();
+            
+            // 5. Zodiac & Personality
+            const zodiac = getZodiac(birthDate.getDate(), birthDate.getMonth() + 1);
+            const animals = ['Rat', 'Ox', 'Tiger', 'Rabbit', 'Dragon', 'Snake', 'Horse', 'Goat', 'Monkey', 'Rooster', 'Dog', 'Pig'];
+            const chinese = animals[(birthDate.getFullYear() - 4) % 12];
+            
+            zodiacEl.textContent = zodiac;
+            chineseZodiacEl.textContent = chinese;
+            traitEl.textContent = `A blend of ${zodiac}'s determination and the ${chinese}'s quick-witted energy.`;
+        }
+
+        function getZodiac(day, month) {
+            const zodiacSigns = ['Capricorn', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius'];
+            const lastDay = [19, 18, 20, 19, 20, 20, 22, 22, 22, 23, 21, 21];
+            return (day > lastDay[month - 1]) ? zodiacSigns[month % 12] : zodiacSigns[month - 1];
+        }
+
+        function showError(message) {
+            errorEl.textContent = message;
+            errorEl.classList.remove('hidden');
+            resultsContainer.classList.add('hidden'); // Hide results on new error
+        }
+
+        // --- Initial Icon Render ---
+        lucide.createIcons();
+    });
 </script>
+
 </body>
 </html>
